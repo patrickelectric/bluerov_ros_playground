@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<package>
+  <name>bluerov-playground</name>
+  <version>0.0.0</version>
+  <description>BlueRov playground package</description>
+  <author email="patrick@bluerobotics.com">Patrick José Pereira</author>
+  <maintainer email="patrick@bluerobotics.com">Patrick José Pereira</maintainer>
+  <license>GPLv3</license>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <run_depend>diagnostic_msgs</run_depend>
+  <run_depend>geometry_msgs</run_depend>
+  <run_depend>mavros_msgs</run_depend>
+  <run_depend>nav_msgs</run_depend>
+  <run_depend>sensor_msgs</run_depend>
+  <run_depend>std_msgs</run_depend>
+
+  <run_depend>mavros</run_depend>
+  <run_depend>rospy</run_depend>
+
+  <export></export>
+</package>

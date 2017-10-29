@@ -3,9 +3,14 @@ import rospy
 import threading
 import time
 
-import user.pubs as pubs
-import user.subs as subs
-import user.video as video
+try:
+    import user.pubs as pubs
+    import user.subs as subs
+    import user.video as video
+except:
+    import pubs
+    import subs
+    import video
 
 
 class Code(threading.Thread):

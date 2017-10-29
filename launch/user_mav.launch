@@ -7,7 +7,7 @@
   <arg name="component_id" default="240"/>
   <arg name="tgt_system" default="1"/>
   <arg name="tgt_component" default="1"/>
-  <arg name="pluginlists_yaml" value="$(find bluerov_ros_playground)/mav_pluginlists.yaml"/>
+  <arg name="pluginlists_yaml" value="$(find bluerov_ros_playground)/launch/mav_pluginlists.yaml"/>
   <arg name="config_yaml" value="$(find mavros)/launch/apm_config.yaml"/>
   <arg name="log_output" default="screen"/>
 

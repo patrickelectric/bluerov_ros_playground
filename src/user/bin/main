@@ -1,6 +1,9 @@
-import threading
-from user import Code
+#!/usr/bin/env python
 
+import threading
+from user.user import Code
+
+print('oi')
 
 def main():
     thread = Code()

@@ -1,10 +1,11 @@
 import cv2
-import pubs
 import rospy
-import subs
 import threading
 import time
-import video
+
+import user.pubs as pubs
+import user.subs as subs
+import user.video as video
 
 
 class Code(threading.Thread):
@@ -13,7 +14,7 @@ class Code(threading.Thread):
         self.daemon = True
         self.sub = subs.Subs()
         self.pub = pubs.Pubs()
-        rospy.init_node('user_node')
+        rospy.init_node('user_node', log_level=rospy.DEBUG)
         self.sub.subscribe_topics()
         self.pub.subscribe_topics()
 
@@ -21,9 +22,10 @@ class Code(threading.Thread):
         self.cam.start_capture()
 
     def run(self):
+        # User code
         try:
-            print(self.sub.get_data()['mavros']['battery']['voltage'])
-            print(self.sub.get_data()['mavros']['rc']['in']['channels'])
+            rospy.loginfo(self.sub.get_data()['mavros']['battery']['voltage'])
+            rospy.loginfo(self.sub.get_data()['mavros']['rc']['in']['channels'])
             self.pub.set_data('/mavros/rc/override',
                               [1200, 1200, 1200, 1200, 1200, 1200, 1200, 1200])
 

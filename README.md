@@ -31,3 +31,6 @@ Scripts to help BlueRov integration with ROS
 
 ### Topics ###
 If you need more information about the topics and what you can access, take a look [here](doc/topics_and_data.md).
+
+### Test ###
+- View 3D model: `roslaunch urdf_tutorial display.launch model:=src/bluerov_ros_playground/model/BlueRov2.urdf `

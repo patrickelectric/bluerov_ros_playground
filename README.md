@@ -35,3 +35,4 @@ If you need more information about the topics and what you can access, take a lo
 ### Test ###
 - View 3D model:
     - RVIZ: `roslaunch bluerov_ros_playground rviz.launch`
+    - Gazebo: `roslaunch bluerov_ros_playground gazebo.launch`

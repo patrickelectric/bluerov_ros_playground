@@ -178,6 +178,8 @@ include_directories(
 
 ## Mark other files for installation (e.g. launch and bag files, etc.)
 install(FILES
+  launch/gazebo.launch
+  launch/rviz.launch
   launch/mav_pluginlists.yaml
   launch/user_mav.launch
   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}

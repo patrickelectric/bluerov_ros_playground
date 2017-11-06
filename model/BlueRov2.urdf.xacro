@@ -1,39 +1,133 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="BlueRov2">
-  <link name="origin_link" />
+<?xml version="1.0"?>
+<robot name="BlueRov2" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <xacro:property name="PI" value="3.1415926535897931"/>
+
+  <!-- Body properties -->
+  <xacro:property name="thr12_y" value="0.115"/>
+  <xacro:property name="thr34_x" value="0.18"/>
+  <xacro:property name="thr34_y" value="0.1092"/>
+  <xacro:property name="thr5_x" value="0.17"/>
+  <xacro:property name="thr6_x" value="0.039"/>
+  <xacro:property name="thr56_z" value="0.105"/>
+
+
+  <xacro:property name="eps" value="0.00000001"/>
+
+  <!-- Thruster link -->
+    <xacro:macro name="thruster_dummy_link" params="name xyz rpy">
+        <joint name="${name}" type="fixed">
+            <parent link="base_link"/>
+            <child link="${name}"/>
+            <origin rpy="${rpy}" xyz="${xyz}"/>
+        </joint>
+
+        <link name="${name}">
+            <buoyancy><compensation>1.0</compensation></buoyancy>
+            <!--visual name="${name}">
+                <geometry>
+                    <cylinder length=".5" radius=".01"/>
+                </geometry>
+                <material name="black">
+                    <color rgba="0 0 0 1"/>
+                </material>
+            </visual>
+            <inertial>
+                <mass value=".1"/>
+                <inertia
+                    ixx=".1"
+                    ixy="0.0"
+                    ixz="0.0"
+                    iyy=".1"
+                    iyz="0.0"
+                    izz=".1"/>
+                </inertial-->
+            </link>
+            <gazebo reference="${name}">
+                <material>Gazebo/Black</material>
+            </gazebo>
+        </xacro:macro>
+
+
+  <!-- Plugin list -->
+    <gazebo>
+    <!-- Gazebo plugin listens to the body-->
+    <plugin name="freefloating_gazebo_control" filename="libfreefloating_gazebo_control.so">
+        <switchService>switch</switchService>
+        <updateRate>100</updateRate>
+        <link>base_link</link>
+
+        <!-- for each thruster, give the map to XYZ+RPY and the maximum effort -->
+        <thruster>
+            <effort>30</effort>
+            <name>thr1</name>
+            <map>1 0 0 0 0 ${-thr12_y}</map>
+        </thruster>
+        <thruster>
+            <effort>30</effort>
+            <name>thr2</name>
+            <map>1 0 0 0 0 ${thr12_y}</map>
+        </thruster>
+        <thruster>
+            <effort>30</effort>
+            <name>thr3</name>
+            <map>0 0 -1 ${-thr34_y} ${thr34_x} 0</map>
+        </thruster>
+        <thruster>
+            <effort>30</effort>
+            <name>thr4</name>
+            <map>0 0 -1 ${thr34_y} ${thr34_x} 0</map>
+        </thruster>
+        <thruster>
+            <effort>30</effort>
+            <name>thr5</name>
+            <map>0 0 -1 0 ${-thr5_x} 0</map>
+        </thruster>
+        <thruster>
+            <effort>30</effort>
+            <name>thr6</name>
+            <map>0 1 0 ${-thr56_z} 0 0</map>
+        </thruster>
+    </plugin>
+    </gazebo>
+
   <link name="base_link">
-    <!--http://docs.bluerobotics.com/brov2/#specifications-->
-    <inertial>
-      <mass value="11"/>
-      <inertia ixx="0.1" ixy="0" ixz="0" iyy="0.1" iyz="0" izz="0.1" />
-    </inertial>
     <visual>
-      <geometry>
-        <mesh filename="package://bluerov_ros_playground/model/BlueRov2.stl" scale="0.1 0.1 0.1"/>
-      </geometry>
-      <material name="base_material">
-        <color rgba="1 1 1 1" />
-      </material>
-    </visual>
-    <collision>
+      <origin xyz="0 0 0" rpy="${-PI} 0 0"/>
       <geometry>
         <mesh filename="package://bluerov_ros_playground/model/BlueRov2.stl" scale="0.1 0.1 0.1" />
       </geometry>
-    </collision>
+    </visual>
+    <inertial>
+      <origin xyz="0 0 0.0" rpy="0 0 0"/>
+      <mass value="11"/>
+    <inertia
+      ixx="5"
+      ixy="0.0"
+      ixz="0.0"
+      iyy="5"
+      iyz="5"
+      izz="5"/>
+    </inertial>
+    <!--collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+      <box size="0.5 0.5 0.5"/>
+      </geometry>
+    </collision-->
+    <buoyancy>
+        <compensation>1.01</compensation>
+        <origin xyz= "0 0 0"/>
+        <limit radius=".5"/>
+        <damping xyz="100 200 150" rpy="50 50 50"/>
+    </buoyancy>
   </link>
-  <joint name="base_joint" type="fixed">
-    <parent link="origin_link" />
-    <child link="base_link" />
-    <origin xyz="0 0 0" />
-  </joint>
-  <gazebo>
-    <plugin name="freefloating_gazebo_control" filename="libfreefloating_gazebo_control.so">
-    </plugin>
-  </gazebo>
-  <buoyancy>
-      <compensation>10.3</compensation>
-      <!--origin xyz= "0 0 0"/>
-      <limit radius=".5"/>
-      <damping xyz="100 200 150" rpy="50 50 50"/-->
-  </buoyancy>
+
+<xacro:thruster_dummy_link name="thr1" xyz="0.0 0.115 0.0" rpy="-0.0 -1.57079632679 0.0"/>
+<xacro:thruster_dummy_link name="thr2" xyz="0.0 -0.115 0.0" rpy="-0.0 -1.57079632679 0.0"/>
+<xacro:thruster_dummy_link name="thr3" xyz="0.18 0.1092 0.0" rpy="0.0 -0.0 0.0"/>
+<xacro:thruster_dummy_link name="thr4" xyz="0.18 -0.1092 0.0" rpy="0.0 -0.0 0.0"/>
+<xacro:thruster_dummy_link name="thr5" xyz="-0.17 0.0 0.0" rpy="0.0 -0.0 0.0"/>
+<xacro:thruster_dummy_link name="thr6" xyz="0.0 0.0 0.105" rpy="1.57079632679 -0.0 0.0"/>
+
 </robot>

@@ -185,6 +185,11 @@ install(FILES
   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/launch
 )
 
+install(FILES
+  model/BlueRov2.urdf.xacro
+  DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/model
+)
+
 catkin_install_python(PROGRAMS
   src/user/bin/main
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}

@@ -182,7 +182,7 @@ install(FILES
   launch/rviz.launch
   launch/mav_pluginlists.yaml
   launch/user_mav.launch
-  DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
+  DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/launch
 )
 
 catkin_install_python(PROGRAMS

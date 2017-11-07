@@ -39,10 +39,8 @@ class Pubs(object):
     def subscribe_topics(self, init=False):
         # Create dict to access publisher
         for topic, msg_type, queue in self.topics:
-            self.set_data(topic)
-
-        self.set_data(topic, pub=rospy.Publisher(
-            topic, msg_type, queue_size=queue))
+            self.set_data(topic, pub=rospy.Publisher(
+                topic, msg_type, queue_size=queue))
 
         try:
             if init:

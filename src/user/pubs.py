@@ -4,6 +4,8 @@ import threading
 
 import mavros_msgs.msg
 
+from sensor_msgs.msg import JointState
+
 
 class Pubs(object):
     def __init__(self):
@@ -14,6 +16,10 @@ class Pubs(object):
             # Sensors
             ['/mavros/rc/override',
                 mavros_msgs.msg.OverrideRCIn,
+                1
+             ],
+            ['/BlueRov2/body_command',
+                JointState,
                 1
              ]
         ]

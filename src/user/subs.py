@@ -146,6 +146,10 @@ class Subs(object):
             ['/diagnostics',
                 diagnostic_msgs.msg.DiagnosticArray,
                 self.callback
+             ],
+            ['/joy',
+                sensor_msgs.msg.Joy,
+                self.callback
              ]
         ]
 

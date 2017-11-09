@@ -19,14 +19,29 @@ Scripts to help BlueRov integration with ROS
 
 ### Running with SITL ###
 - Run ArduPilot SITL
+
     1. [Download ArduPilot and configure SITL](http://ardupilot.org/dev/docs/setting-up-sitl-on-linux.html).
     2. `$ cd ardupilot/ArsuSub`
     3. `$ sim_vehicle.py`
+
 - Fake video stream
+
     - `$ ffmpeg -i /dev/video0 -b 50k -r 20 -s 1080x720 -f mpegts udp://@127.0.0.1:5600`
         -  If necessary, change video source and resolution
-- Launch example
+
+- Launch user example
+
     - `roslaunch bluerov_ros_playground user_mav.launch`
+
+- Gazebo
+
+    This example allow SITL communication with Gazebo, right now the only interaction that happen is the thruster control using [thruster pwm fitting](https://colab.research.google.com/notebook#fileId=1CEDW9ONTJ8Aik-HVsqck8Y_EcHYLg0zK).
+    - Run SITL and start gazebo.launch
+    - `roslaunch bluerov_ros_playground gazebo.launch`
+
+- RVIZ
+    - `roslaunch bluerov_ros_playground rviz.launch`
+
 
 
 ### Topics ###

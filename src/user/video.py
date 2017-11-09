@@ -4,9 +4,9 @@ import threading
 
 
 class Video(object):
-    def __init__(self):
-        self.ip = '127.0.0.1'
-        self.port = 5600
+    def __init__(self, ip='127.0.0.1', port=5600):
+        self.ip = ip
+        self.port = port
         self._frame = None
 
     def start_capture(self):

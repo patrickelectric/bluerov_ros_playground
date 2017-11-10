@@ -24,6 +24,9 @@ Scripts to help BlueRov integration with ROS
     2. `$ cd ardupilot/ArsuSub`
     3. `$ sim_vehicle.py`
 
+    - To test mavros communication with SITL:
+        - `$ roslaunch mavros apm.launch fcu_url:=udp://0.0.0.0:14550@0.0.0.0:14550`
+
 - Fake video stream
 
     - `$ ffmpeg -i /dev/video0 -b 50k -r 20 -s 1080x720 -f mpegts udp://@127.0.0.1:5600`

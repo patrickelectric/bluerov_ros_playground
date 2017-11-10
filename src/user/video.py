@@ -44,14 +44,14 @@ class Video(threading.Thread):
     def run(self):
         """ Get frame to update _frame
         """
-        try:
-            new_frame = self.cap.read()
-            if new_frame != None:
-                self._frame = new_frame
+        while True:
+            try:
+                new_frame = self.cap.read()
+                if new_frame != None:
+                    self._frame = new_frame
 
-        except Exception as error:
-            print(error)
-        self.run()
+            except Exception as error:
+                print(error)
 
     def __exit__(self, exc_type, exc_value, traceback):
         'Release camera'

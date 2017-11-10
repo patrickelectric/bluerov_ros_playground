@@ -1,8 +1,7 @@
 #!/usr/bin/env python
+import mavros_msgs.msg
 import rospy
 import threading
-
-import mavros_msgs.msg
 
 from sensor_msgs.msg import JointState
 

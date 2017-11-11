@@ -12,9 +12,9 @@ try:
     import subs
     import video
 except:
-    import user.pubs as pubs
-    import user.subs as subs
-    import user.video as video
+    import bluerov.pubs as pubs
+    import bluerov.subs as subs
+    import bluerov.video as video
 
 from sensor_msgs.msg import JointState
 

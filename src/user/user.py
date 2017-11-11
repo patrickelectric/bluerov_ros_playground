@@ -80,6 +80,8 @@ class Code(threading.Thread):
 
                 # rc run between 1100 and 2000, a joy command is between -1.0 and 1.0
                 override = [int(val*400 + 1500) for val in joy]
+                for _ in range(len(override), 8):
+                    override.append(0)
                 # Send joystick data as rc output into rc override topic
                 # (fake radio controller)
                 self.pub.set_data('/mavros/rc/override', override)

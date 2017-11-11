@@ -20,7 +20,6 @@ from sensor_msgs.msg import JointState
 class Code(threading.Thread):
     def __init__(self):
         super(Code, self).__init__()
-        self.daemon = True
         self.sub = subs.Subs()
         self.pub = pubs.Pubs()
         rospy.init_node('user_node', log_level=rospy.DEBUG)

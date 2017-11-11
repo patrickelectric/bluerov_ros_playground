@@ -178,8 +178,8 @@ class Subs(object):
                 rospy.init_node('get_mav_data')
             thread = threading.Thread(target=lambda: rospy.spin())
             thread.start()
-        except rospy.ROSInterruptException:
-            print(e)
+        except rospy.ROSInterruptException as error:
+            print(error)
 
     def callback(self, data, topic):
         self.set_data(topic, data)

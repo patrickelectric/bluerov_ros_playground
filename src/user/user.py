@@ -47,8 +47,6 @@ class Code(threading.Thread):
         self.cam = video.Video()
         self.cam.start()
 
-        self. i = 0
-
     def pwm_to_thrust(self, pwm):
         """Transform pwm to thruster value
         The equation come from:

@@ -49,9 +49,6 @@ class Code(threading.Thread):
 
         self. i = 0
 
-        while not self.cam.frame_available():
-            pass
-
     def pwm_to_thrust(self, pwm):
         """Transform pwm to thruster value
         The equation come from:
@@ -109,6 +106,9 @@ class Code(threading.Thread):
                 print('rc error:', error)
 
             try:
+                if not self.cam.frame_available():
+                    continue
+
                 # Show video output
                 _, frame = self.cam.frame()
                 cv2.imshow('frame', frame)

@@ -2,6 +2,8 @@
 
 import cv2
 import rospy
+import signal
+import sys
 import threading
 import time
 
@@ -15,6 +17,13 @@ except:
     import video
 
 from sensor_msgs.msg import JointState
+
+
+def signal_handler(signal, frame):
+    print("program exiting gracefully")
+    sys.exit(0)
+
+signal.signal(signal.SIGINT, signal_handler)
 
 
 class Code(threading.Thread):

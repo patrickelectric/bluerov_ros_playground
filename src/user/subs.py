@@ -191,3 +191,14 @@ class Subs(object):
 if __name__ == '__main__':
     sub = Subs()
     sub.subscribe_topics(True)
+
+    def print_voltage():
+        try:
+            rospy.loginfo(sub.get_data()['mavros']['battery']['voltage'])
+        except Exception as error:
+            print(error)
+
+        thread = threading.Timer(1.0, print_voltage)
+        thread.daemon = True
+        thread.start()
+    print_voltage()

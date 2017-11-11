@@ -23,8 +23,6 @@ class Video(threading.Thread):
         self.port = port
         self._frame = None
 
-        self.cap = cv2.VideoCapture('udp://{0}:{1}'.format(self.ip, self.port))
-
     def frame(self):
         """ Get Frame
 
@@ -44,6 +42,8 @@ class Video(threading.Thread):
     def run(self):
         """ Get frame to update _frame
         """
+        self.cap = cv2.VideoCapture('udp://{0}:{1}'.format(self.ip, self.port))
+
         while True:
             try:
                 new_frame = self.cap.read()
@@ -62,10 +62,10 @@ if __name__ == '__main__':
     video = Video()
     video.start()
 
-    while not video.frame_available():
-        pass
-
     while True:
+        if not video.frame_available():
+            continue
+
         ret, frame = video.frame()
         cv2.imshow('frame', frame)
         if cv2.waitKey(1) & 0xFF == ord('q'):

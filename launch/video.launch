@@ -1,0 +1,5 @@
+<?xml version="1.0"?>
+
+<launch>
+  <node pkg="bluerov_ros_playground" type="video" name="bluerov_video"/>
+</launch>

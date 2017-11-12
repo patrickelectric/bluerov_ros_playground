@@ -182,6 +182,7 @@ install(FILES
   launch/rviz.launch
   launch/mav_pluginlists.yaml
   launch/user_mav.launch
+  launch/video.launch
   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/launch
 )
 

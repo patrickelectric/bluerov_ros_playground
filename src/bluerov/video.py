@@ -76,7 +76,6 @@ class Video(threading.Thread):
                 ]
 
         command = ' '.join(config)
-        print(command)
         self.video_pipe = Gst.parse_launch(command)
         self.video_pipe.set_state(Gst.State.PLAYING)
         self.video_sink = self.video_pipe.get_by_name('appsink0')

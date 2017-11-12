@@ -1,6 +1,42 @@
 # BlueRov-ROS-playground
 Scripts to help BlueRov integration with ROS
 
+```ascii
+                      +-----------------------+         +------------------------+
+                      |     Raspberry Pi      |         |    Topside Commputer   |
+                      |    ip 192.168.2.2     |         |     ip 192.168.2.1     |
+                      |                       |         |                        |
++-------+  Telemetry  | +-------------------+ |         |                        |
+|Pixhawk<-------------->USB         MAVProxy| |         |                        |
++-------+    Pilot    | +                   + |         | +--------------------+ |
+            Control   | |            udpbcast<----------->:14550         MAVROS| |
+                      | +-------------------+ |  Pilot  | |(UDP)               | |
+                      |                       | Control | |                    | |
+                      | +-------------------+ |         | |       (ROS)        | |
++---------+           | CSI+2       raspivid| |         | +------+/mavros+-----+ |
+|Raspberry+------------>camera              | |         |           +            |
+| Camera  |           | port                | |         |           |            |
++---------+           | +                   | |         | +---------v----------+ |
+                      | |                   | |         | |subs.py      pubs.py| |
+                      | +------------+stdout+ |         | |                    | |
+                      |                  +    |         | |                    | |
+                      |             Raw  |    |         | |                    | |
+                      |             H264 |    |         | |                    | |
+                      |                  v    |         | |      user.py       | |
+                      | +------------+ fdsrc+ |         | |                    | |
+                      | |gstreamer          | |         | |                    | |
+                      | |                   + |         | :5600 video.py       | |
+                      | |             udpsink+----------->(UDP)                | |
+                      | +-------------------+ |  Video  | +---------^----------+ |
+                      |                       | Stream  |           |            |
+                      +-----------------------+         |           +            |
+                                                        | +--------/joy--------+ |
+                                                        | |joy     (ROS)       | |         +--------+
+                                                        | |                  USB<----------+Joystick|
+                                                        | +--------------------+ |  Pilot  +--------+
+                                                        |                        | Control
+                                                        +------------------------+
+```
 ### Requirements ###
 - ros-desktop-full
   - kinetic or newer

@@ -1,9 +1,6 @@
 #!/usr/bin/env python
 
-import threading
 from bluerov.user import Code
-
-print('oi')
 
 def main():
     thread = Code()

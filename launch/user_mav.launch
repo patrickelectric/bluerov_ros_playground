@@ -29,5 +29,5 @@
 
   <node pkg="rosservice" type="rosservice" name="mavros_set_stream" args="call --wait /mavros/set_stream_rate 0 10 1"/>
 
-  <node pkg="bluerov_ros_playground" type="main" name="user_node" output="$(arg log_output)"/>
+  <node pkg="bluerov_ros_playground" type="user_mav" name="user_node" output="$(arg log_output)"/>
 </launch>

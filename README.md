@@ -9,7 +9,7 @@ Scripts to help BlueRov integration with ROS
 +-------+  Telemetry  | +-------------------+ |         |                        |
 |Pixhawk<-------------->USB         <b>MAVProxy</b>| |         |                        |
 +-------+    Pilot    | +                   + |         | +--------------------+ |
-            Control   | |            udpbcast<----------->:14550         MAVROS| |
+            Control   | |            udpbcast<----------->:14550         <b>MAVROS</b>| |
                       | +-------------------+ |  Pilot  | |(UDP)               | |
                       |                       | Control | |                    | |
                       | +-------------------+ |         | |       (ROS)        | |
@@ -22,16 +22,16 @@ Scripts to help BlueRov integration with ROS
                       |                  +    |         | |                    | |
                       |             Raw  |    |         | |                    | |
                       |             H264 |    |         | |                    | |
-                      |                  v    |         | |      user.py       | |
+                      |                  v    |         | |      <b>user.py</b>b>       | |
                       | +------------+ fdsrc+ |         | |                    | |
-                      | |gstreamer          | |         | |                    | |
+                      | |<b>gstreamer</b>b>          | |         | |                    | |
                       | |                   + |         | :5600 video.py       | |
                       | |             udpsink+----------->(UDP)                | |
                       | +-------------------+ |  Video  | +---------^----------+ |
                       |                       | Stream  |           |            |
                       +-----------------------+         |           +            |
                                                         | +--------/joy--------+ |
-                                                        | |joy     (ROS)       | |         +--------+
+                                                        | |<b>joy</b>b>     (ROS)       | |         +--------+
                                                         | |                  USB<----------+Joystick|
                                                         | +--------------------+ |  Pilot  +--------+
                                                         |                        | Control

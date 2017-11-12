@@ -29,9 +29,9 @@ Scripts to help BlueRov integration with ROS
 
 - Fake video stream
 
-    - `$ ffmpeg -i /dev/video0 -b 50k -r 20 -s 1080x720 -f mpegts udp://@127.0.0.1:5600`
+    - `$ gst-launch-1.0 videotestsrc ! video/x-raw,width=640,height=480 ! videoconvert ! x264enc ! rtph264pay ! udpsink host=127.0.0.1 port=5600`
         - If necessary, change video source and resolution.
-        - To test the udp transmission: `gst-launch-1.0 -v udpsrc uri=192.168.2.2 port=5600 ! application/x-rtp, payload=96 ! rtpjitterbuffer ! rtph264depay ! avdec_h264 ! fpsdisplaysink sync=false text-overlay=false`
+        - To test the udp reception: `gst-launch-1.0 -v udpsrc port=5600 ! application/x-rtp, payload=96 ! rtpjitterbuffer ! rtph264depay ! avdec_h264 ! fpsdisplaysink sync=false text-overlay=false`
 
 - Launch user example
 

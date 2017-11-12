@@ -41,6 +41,11 @@ What is possible ?
     This example will start user example, reading data from mavlink, interacting with joystick over rc commands and showing ROV video stream.
     - `roslaunch bluerov_ros_playground user_mav.launch`
 
+- Visualize video stream
+
+    Shows video stream using opencv and gstreamer
+    - `roslaunch bluerov_ros_playground video.launch`
+
 - Gazebo
 
     This example allow SITL communication with Gazebo, right now the only interaction that happen is the thruster control using [thruster pwm fitting](https://colab.research.google.com/notebook#fileId=1CEDW9ONTJ8Aik-HVsqck8Y_EcHYLg0zK).

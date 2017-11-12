@@ -1,13 +1,13 @@
 # BlueRov-ROS-playground
 Scripts to help BlueRov integration with ROS
 
-```ascii
+<pre>
                       +-----------------------+         +------------------------+
                       |     Raspberry Pi      |         |    Topside Commputer   |
                       |    ip 192.168.2.2     |         |     ip 192.168.2.1     |
                       |                       |         |                        |
 +-------+  Telemetry  | +-------------------+ |         |                        |
-|Pixhawk<-------------->USB         MAVProxy| |         |                        |
+|Pixhawk<-------------->USB         <b>MAVProxy</b>| |         |                        |
 +-------+    Pilot    | +                   + |         | +--------------------+ |
             Control   | |            udpbcast<----------->:14550         MAVROS| |
                       | +-------------------+ |  Pilot  | |(UDP)               | |
@@ -36,7 +36,7 @@ Scripts to help BlueRov integration with ROS
                                                         | +--------------------+ |  Pilot  +--------+
                                                         |                        | Control
                                                         +------------------------+
-```
+</pre>
 ### Requirements ###
 - ros-desktop-full
   - kinetic or newer

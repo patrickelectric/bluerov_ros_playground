@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 import threading
-from user.user import Code
+from bluerov.user import Code
 
 print('oi')
 

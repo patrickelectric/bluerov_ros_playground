@@ -142,7 +142,7 @@ class Video(threading.Thread):
 
 
 if __name__ == '__main__':
-    video = Video(port=5600)
+    video = Video()
     video.start()
 
     while True:

@@ -3,8 +3,8 @@ Scripts to help BlueRov integration with ROS
 
 <pre>
                       +-----------------------+         +------------------------+
-                      |     Raspberry Pi      |         |    Topside Commputer   |
-                      |    ip 192.168.2.2     |         |     ip 192.168.2.1     |
+                      |     <b>Raspberry Pi</b>      |         |    <b>Topside Commputer</b>   |
+                      |    <b>ip 192.168.2.2</b>     |         |     <b>ip 192.168.2.1</b>     |
                       |                       |         |                        |
 +-------+  Telemetry  | +-------------------+ |         |                        |
 |Pixhawk<-------------->USB         <b>MAVProxy</b>| |         |                        |
@@ -13,7 +13,7 @@ Scripts to help BlueRov integration with ROS
                       | +-------------------+ |  Pilot  | |(UDP)               | |
                       |                       | Control | |                    | |
                       | +-------------------+ |         | |       (ROS)        | |
-+---------+           | CSI+2       <b>raspivid</b>b>| |         | +------+/mavros+-----+ |
++---------+           | CSI+2       <b>raspivid</b>| |         | +------+/mavros+-----+ |
 |Raspberry+------------>camera              | |         |           +            |
 | Camera  |           | port                | |         |           |            |
 +---------+           | +                   | |         | +---------v----------+ |

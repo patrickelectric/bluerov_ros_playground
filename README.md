@@ -25,7 +25,7 @@ Scripts to help BlueRov integration with ROS
     3. `$ sim_vehicle.py`
 
     - To test mavros communication with SITL:
-        - `$ roslaunch mavros apm.launch fcu_url:=udp://0.0.0.0:14550@0.0.0.0:14550`
+        - `$ roslaunch mavros apm.launch fcu_url:=udp://0.0.0.0:14550@`
 
 - Fake video stream
 

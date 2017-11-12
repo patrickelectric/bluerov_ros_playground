@@ -14,7 +14,7 @@ Scripts to help BlueRov integration with ROS
                       |                       | Control | |                    | |
                       | +-------------------+ |         | |       (ROS)        | |
 +---------+           | CSI+2       <b>raspivid</b>| |         | +------+/mavros+-----+ |
-|Raspberry+------------>camera              | |         |           +            |
+|Raspberry+------------>camera              | |         |           ^            |
 | Camera  |           | port                | |         |           |            |
 +---------+           | +                   | |         | +---------v----------+ |
                       | |                   | |         | |subs.py      pubs.py| |

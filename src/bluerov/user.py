@@ -108,7 +108,7 @@ class Code(threading.Thread):
                     continue
 
                 # Show video output
-                _, frame = self.cam.frame()
+                frame = self.cam.frame()
                 cv2.imshow('frame', frame)
                 cv2.waitKey(1)
             except Exception as error:

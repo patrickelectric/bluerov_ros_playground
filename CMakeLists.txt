@@ -192,6 +192,7 @@ install(FILES
 
 catkin_install_python(PROGRAMS
   src/bluerov/bin/user_mav
+  src/bluerov/bin/video
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 

@@ -40,7 +40,6 @@ class Code(threading.Thread):
         super(Code, self).__init__()
         self.sub = subs.Subs()
         self.pub = pubs.Pubs()
-        rospy.init_node('user_node', log_level=rospy.DEBUG)
         self.sub.subscribe_topics()
         self.pub.subscribe_topics()
 
@@ -117,5 +116,10 @@ class Code(threading.Thread):
 
 
 if __name__ == "__main__":
+    try:
+        rospy.init_node('user_node', log_level=rospy.DEBUG)
+    except rospy.ROSInterruptException as error:
+        print('pubs error with ROS: ', error)
+        exit(1)
     thread = Code()
     thread.start()

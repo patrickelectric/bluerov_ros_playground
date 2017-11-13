@@ -6,13 +6,12 @@ BlueRov video capture class
 import cv2
 import gi
 import numpy as np
-import threading
 
 gi.require_version('Gst', '1.0')
 from gi.repository import Gst
 
 
-class Video(threading.Thread):
+class Video():
     """BlueRov video capture class constructor
 
     Attributes:
@@ -31,7 +30,6 @@ class Video(threading.Thread):
         Args:
             port (int, optional): UDP port
         """
-        super(Video, self).__init__()
 
         Gst.init(None)
 
@@ -53,6 +51,8 @@ class Video(threading.Thread):
 
         self.video_pipe = None
         self.video_sink = None
+
+        self.run()
 
     def start_gst(self, config=None):
         """ Start gstreamer pipeline and sink
@@ -129,20 +129,18 @@ class Video(threading.Thread):
                 self.video_sink_conf
             ])
 
-        while True:
-            try:
-                sample = self.video_sink.emit('pull-sample')
-                new_frame = self.gst_to_opencv(sample)
-                self._frame = new_frame
+        self.video_sink.connect('new-sample', self.callback)
 
-            except Exception as error:
-                _frame = None
-                print(error)
+    def callback(self, sink):
+        sample = sink.emit('pull-sample')
+        new_frame = self.gst_to_opencv(sample)
+        self._frame = new_frame
+
+        return Gst.FlowReturn.OK
 
 
 if __name__ == '__main__':
     video = Video()
-    video.start()
 
     while True:
         if not video.frame_available():

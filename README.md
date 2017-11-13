@@ -4,6 +4,8 @@ What is possible ?
 - Video streaming capture with opencv
 - Read and write over mavlink protocol with MAVROS
 - Joystick interaction
+- Gazebo simulation
+![](doc/imgs/bluerov2_gazebo_underwater.png?raw=true)
 
 ## Getting Started
 

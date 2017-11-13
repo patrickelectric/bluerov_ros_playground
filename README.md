@@ -17,6 +17,7 @@ What is possible ?
   - numpy
   - gi
   - PyYAML
+- [freefloating_gazebo](https://github.com/freefloating-gazebo/freefloating_gazebo)
 
 
 ### Installation ###

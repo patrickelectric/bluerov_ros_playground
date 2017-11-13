@@ -1,11 +1,17 @@
 #!/usr/bin/env python
 
+import rospy
+
 from bluerov.user import Code
 
 def main():
-    thread = Code()
-    thread.start()
-
+    try:
+        rospy.init_node('user_node', log_level=rospy.DEBUG)
+    except rospy.ROSInterruptException as error:
+        print('pubs error with ROS: ', error)
+        exit(1)
+    code = Code()
+    code.run()
 
 if __name__ == "__main__":
     main()

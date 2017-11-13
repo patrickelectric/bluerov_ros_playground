@@ -183,9 +183,6 @@ class Subs(object):
     def callback(self, data, topic):
         self.set_data(topic, data)
 
-    def print_data(self):
-        print(self.data['mavros']['battery']['voltage'])
-
 
 if __name__ == '__main__':
     sub = Subs()

@@ -45,7 +45,6 @@ class Code(threading.Thread):
         self.pub.subscribe_topics()
 
         self.cam = video.Video()
-        self.cam.start()
 
     def pwm_to_thrust(self, pwm):
         """Transform pwm to thruster value

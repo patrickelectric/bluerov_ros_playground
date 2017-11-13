@@ -61,7 +61,10 @@ class Pubs(object):
 
         # Publish data (if it exist) to ros topic (path)
         if value is not {} and 'pub' in current_level:
-            current_level['pub'].publish(value)
+            try:
+                current_level['pub'].publish(value)
+            except Exception as error:
+                print(error)
 
         # Add publisher to dict
         if pub is not None:

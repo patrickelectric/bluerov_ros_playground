@@ -4,7 +4,6 @@ import cv2
 import rospy
 import signal
 import sys
-import threading
 import time
 
 try:
@@ -19,14 +18,7 @@ except:
 from sensor_msgs.msg import JointState
 
 
-def signal_handler(signal, frame):
-    print("program exiting gracefully")
-    sys.exit(0)
-
-signal.signal(signal.SIGINT, signal_handler)
-
-
-class Code(threading.Thread):
+class Code(object):
 
     """Class to provide user access
 
@@ -67,7 +59,7 @@ class Code(threading.Thread):
     def run(self):
         """Run user code
         """
-        while True:
+        while not rospy.is_shutdown():
             # Try to get data
             try:
                 rospy.loginfo(self.sub.get_data()['mavros']['battery']['voltage'])
@@ -112,8 +104,6 @@ class Code(threading.Thread):
             except Exception as error:
                 print('imshow error:', error)
 
-            time.sleep(0.1)
-
 
 if __name__ == "__main__":
     try:
@@ -121,5 +111,5 @@ if __name__ == "__main__":
     except rospy.ROSInterruptException as error:
         print('pubs error with ROS: ', error)
         exit(1)
-    thread = Code()
-    thread.start()
+    code = Code()
+    code.run()

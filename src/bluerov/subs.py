@@ -175,16 +175,17 @@ class Subs(object):
             self.set_data(topic)
             rospy.Subscriber(topic, msg_type, callback, callback_args=topic)
 
-        try:
-            rospy.init_node('get_mav_data')
-        except rospy.ROSInterruptException as error:
-            print('pubs error with ROS: ', error)
-
     def callback(self, data, topic):
         self.set_data(topic, data)
 
 
 if __name__ == '__main__':
+    try:
+        rospy.init_node('get_mav_data')
+    except rospy.ROSInterruptException as error:
+        print('pubs error with ROS: ', error)
+        exit(1)
+
     sub = Subs()
 
     def print_voltage():

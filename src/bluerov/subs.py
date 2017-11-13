@@ -2,7 +2,7 @@
 
 import json
 import rospy
-import threading
+import time
 import yaml
 
 import diagnostic_msgs.msg
@@ -153,6 +153,8 @@ class Subs(object):
              ]
         ]
 
+        self.subscribe_topics()
+
     def get_data(self):
         return self.data
 
@@ -168,18 +170,15 @@ class Subs(object):
         if value is not {}:
             current_level.update(yaml.load(str(value)))
 
-    def subscribe_topics(self, init=False):
+    def subscribe_topics(self):
         for topic, msg_type, callback in self.topics:
             self.set_data(topic)
             rospy.Subscriber(topic, msg_type, callback, callback_args=topic)
 
         try:
-            if init:
-                rospy.init_node('get_mav_data')
-            thread = threading.Thread(target=lambda: rospy.spin())
-            thread.start()
+            rospy.init_node('get_mav_data')
         except rospy.ROSInterruptException as error:
-            print(error)
+            print('pubs error with ROS: ', error)
 
     def callback(self, data, topic):
         self.set_data(topic, data)
@@ -190,7 +189,6 @@ class Subs(object):
 
 if __name__ == '__main__':
     sub = Subs()
-    sub.subscribe_topics(True)
 
     def print_voltage():
         try:
@@ -198,7 +196,6 @@ if __name__ == '__main__':
         except Exception as error:
             print(error)
 
-        thread = threading.Timer(1.0, print_voltage)
-        thread.daemon = True
-        thread.start()
-    print_voltage()
+    while not rospy.is_shutdown():
+        print_voltage()
+        time.sleep(1)

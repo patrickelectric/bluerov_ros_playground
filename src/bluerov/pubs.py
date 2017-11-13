@@ -3,7 +3,7 @@
 """
 import mavros_msgs.msg
 import rospy
-import threading
+import time
 
 from sensor_msgs.msg import JointState
 
@@ -30,6 +30,8 @@ class Pubs(object):
                 1
              ]
         ]
+
+        self.subscribe_topics()
 
     def get_data(self):
         """Return data dict
@@ -65,7 +67,7 @@ class Pubs(object):
         if pub is not None:
             current_level.update({'pub': pub})
 
-    def subscribe_topics(self, init=False):
+    def subscribe_topics(self):
         """Create dict to access publisher
 
         Args:
@@ -78,12 +80,7 @@ class Pubs(object):
                 topic, msg_type, queue_size=queue))
 
         try:
-            if init:
-                rospy.init_node('set_mav_data')
-
-            # Let spin running
-            thread = threading.Thread(target=lambda: rospy.spin())
-            thread.start()
+            rospy.init_node('set_mav_data')
         except rospy.ROSInterruptException as error:
             print('pubs error with ROS: ', error)
 
@@ -99,12 +96,11 @@ class Pubs(object):
 
 if __name__ == '__main__':
     pub = Pubs()
-    pub.subscribe_topics(True)
 
     def rc():
         pub.set_data('/mavros/rc/override',
                      [1201, 1200, 1200, 1200, 1200, 1200, 1200, 1205])
-        thread = threading.Timer(1.0, rc)
-        thread.daemon = True
-        thread.start()
-    rc()
+
+    while not rospy.is_shutdown():
+        rc()
+        time.sleep(1)

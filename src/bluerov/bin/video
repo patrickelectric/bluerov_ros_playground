@@ -5,7 +5,6 @@ import cv2
 
 def main():
     video = Video.Video()
-    video.start()
 
     while True:
         if not video.frame_available():

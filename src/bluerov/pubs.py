@@ -79,11 +79,6 @@ class Pubs(object):
             self.set_data(topic, pub=rospy.Publisher(
                 topic, msg_type, queue_size=queue))
 
-        try:
-            rospy.init_node('set_mav_data')
-        except rospy.ROSInterruptException as error:
-            print('pubs error with ROS: ', error)
-
     def callback(self, data, topic):
         """ROS callback
 
@@ -95,6 +90,11 @@ class Pubs(object):
 
 
 if __name__ == '__main__':
+    try:
+        rospy.init_node('set_mav_data')
+    except rospy.ROSInterruptException as error:
+        print('pubs error with ROS: ', error)
+
     pub = Pubs()
 
     def rc():

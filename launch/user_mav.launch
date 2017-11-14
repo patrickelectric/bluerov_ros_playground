@@ -9,6 +9,7 @@
   <arg name="tgt_component" default="1"/>
   <arg name="pluginlists_yaml" value="$(find bluerov_ros_playground)/launch/mav_pluginlists.yaml"/>
   <arg name="config_yaml" value="$(find mavros)/launch/apm_config.yaml"/>
+  <arg name="joy_dev" default="/dev/input/js0"/>
   <arg name="log_output" default="screen"/>
 
   <node pkg="mavros" type="mavros_node" name="mavros" required="true" clear_params="true" output="$(arg log_output)">
@@ -25,7 +26,9 @@
   </node>
 
   <!-- start the joystick driver -->
-  <node respawn="true" pkg="joy" type="joy_node" name="joy_node"/>
+  <node respawn="true" pkg="joy" type="joy_node" name="joy_node">
+    <param name="dev" type="string" value="$(arg joy_dev)" />
+  </node>
 
   <node pkg="rosservice" type="rosservice" name="mavros_set_stream" args="call --wait /mavros/set_stream_rate 0 10 1"/>
 

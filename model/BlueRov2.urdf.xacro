@@ -117,11 +117,11 @@
 
 <!-- Based on 6 thrusters vectored frame https://www.ardusub.com/images/vectored-frame.png -->
 <!-- BlueRov2 CAD https://grabcad.com/library/bluerov2-1 -->
-<xacro:thruster_dummy_link name="thr1" xyz="0.137 -0.096 0.02" rpy="0 0 0.7853981633974483"/>
-<xacro:thruster_dummy_link name="thr2" xyz="0.137 0.096 0.02" rpy="0 0 -0.7853981633974483"/>
-<xacro:thruster_dummy_link name="thr3" xyz="-0.137 -0.096 0.02" rpy="0 0 3.9269908169872414"/>
-<xacro:thruster_dummy_link name="thr4" xyz="-0.137 0.096 0.02" rpy="0 0 2.356194490192345"/>
-<xacro:thruster_dummy_link name="thr5" xyz="0 -0.111 0.07" rpy="0 1.57079632679 0"/>
-<xacro:thruster_dummy_link name="thr6" xyz="0 0.111 0.07" rpy="0 1.57079632679 0"/>
+<xacro:thruster_dummy_link name="thr1" xyz="0.137 -0.096 0.02" rpy="${-PI/4} ${PI/2} 0"/>
+<xacro:thruster_dummy_link name="thr2" xyz="0.137 0.096 0.02" rpy="${PI/4} ${PI/2} 0"/>
+<xacro:thruster_dummy_link name="thr3" xyz="-0.137 -0.096 0.02" rpy="${PI/4} ${PI/2} 0"/>
+<xacro:thruster_dummy_link name="thr4" xyz="-0.137 0.096 0.02" rpy="${-PI/4} ${PI/2} 0"/>
+<xacro:thruster_dummy_link name="thr5" xyz="-0.111 0 0.07" rpy="0 0 0"/>
+<xacro:thruster_dummy_link name="thr6" xyz="0.111 0 0.07" rpy="0 0 0"/>
 
 </robot>

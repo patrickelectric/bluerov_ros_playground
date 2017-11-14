@@ -15,7 +15,7 @@
 
         <link name="${name}">
             <buoyancy><compensation>1.0</compensation></buoyancy>
-            <!--visual name="${name}">
+            <visual name="${name}">
                 <geometry>
                     <cylinder length=".5" radius=".01"/>
                 </geometry>
@@ -32,7 +32,7 @@
                     iyy=".1"
                     iyz="0.0"
                     izz=".1"/>
-                </inertial-->
+                </inertial>
             </link>
             <gazebo reference="${name}">
                 <material>Gazebo/Black</material>

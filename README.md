@@ -17,7 +17,7 @@ What is possible ?
 - python
   - opencv_python
   - numpy
-  - gi
+  - [gi, gobject](https://wiki.ubuntu.com/Novacut/GStreamer1.0)
   - PyYAML
 - [freefloating_gazebo](https://github.com/freefloating-gazebo/freefloating_gazebo)
 

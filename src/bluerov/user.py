@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 import cv2
+import mavros_msgs
 import rospy
 import signal
 import sys
@@ -15,6 +16,7 @@ except:
     import bluerov.subs as subs
     import bluerov.video as video
 
+from geometry_msgs.msg import TwistStamped
 from sensor_msgs.msg import JointState
 
 
@@ -34,6 +36,10 @@ class Code(object):
         self.pub = pubs.Pubs()
         self.sub.subscribe_topics()
         self.pub.subscribe_topics()
+
+        self.pub.subscribe_topic('/mavros/rc/override', mavros_msgs.msg.OverrideRCIn, 1)
+        self.pub.subscribe_topic('/mavros/setpoint_velocity/cmd_vel', TwistStamped, 1)
+        self.pub.subscribe_topic('/BlueRov2/body_command', JointState, 1)
 
         self.cam = None
         try:

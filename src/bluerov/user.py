@@ -35,7 +35,14 @@ class Code(object):
         self.sub.subscribe_topics()
         self.pub.subscribe_topics()
 
-        self.cam = video.Video()
+        self.cam = None
+        try:
+            video_udp_port = rospy.get_param("/user_node/video_udp_port")
+            rospy.loginfo("video_udp_port: {}".format(video_udp_port))
+            self.cam = video.Video(video_udp_port)
+        except Exception as error:
+            rospy.loginfo(error)
+            self.cam = video.Video()
 
     def pwm_to_thrust(self, pwm):
         """Transform pwm to thruster value

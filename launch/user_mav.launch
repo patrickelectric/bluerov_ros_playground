@@ -3,6 +3,7 @@
 <launch>
   <arg name="fcu_url" default="udp://:14550@127.0.0.1:14549"/>
   <arg name="gcs_url" default="udp://:14549@127.0.0.1:14548"/>
+  <arg name="video_udp_port" default="5600"/>
   <arg name="system_id" default="255"/>
   <arg name="component_id" default="240"/>
   <arg name="tgt_system" default="1"/>
@@ -32,5 +33,7 @@
 
   <node pkg="rosservice" type="rosservice" name="mavros_set_stream" args="call --wait /mavros/set_stream_rate 0 10 1"/>
 
-  <node pkg="bluerov_ros_playground" type="user_mav" name="user_node" output="$(arg log_output)"/>
+  <node pkg="bluerov_ros_playground" type="user_mav" name="user_node" output="$(arg log_output)">
+    <param name="video_udp_port" value="$(arg video_udp_port)"/>
+  </node>
 </launch>

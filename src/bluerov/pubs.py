@@ -70,6 +70,17 @@ class Pubs(object):
         if pub is not None:
             current_level.update({'pub': pub})
 
+    def subscribe_topic(self, topic, msg_type, queue=256):
+        """Update dict with topic
+
+        Args:
+            topic (string): Topic path
+            msg_type (ros msg type): Message type
+            queue (int, optional): number of messages in queue
+        """
+        self.set_data(topic, pub=rospy.Publisher(
+                topic, msg_type, queue_size=queue))
+
     def subscribe_topics(self):
         """Create dict to access publisher
 
@@ -79,8 +90,7 @@ class Pubs(object):
 
         # Get item in topics and populate dict with publisher
         for topic, msg_type, queue in self.topics:
-            self.set_data(topic, pub=rospy.Publisher(
-                topic, msg_type, queue_size=queue))
+            self.subscribe_topic(topic, msg_type, queue)
 
     def callback(self, data, topic):
         """ROS callback

@@ -34,8 +34,6 @@ class Code(object):
         super(Code, self).__init__()
         self.sub = subs.Subs()
         self.pub = pubs.Pubs()
-        self.sub.subscribe_topics()
-        self.pub.subscribe_topics()
 
         self.pub.subscribe_topic('/mavros/rc/override', mavros_msgs.msg.OverrideRCIn, 1)
         self.pub.subscribe_topic('/mavros/setpoint_velocity/cmd_vel', TwistStamped, 1)

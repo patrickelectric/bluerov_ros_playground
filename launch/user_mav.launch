@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 
 <launch>
-  <arg name="fcu_url" default="udp://:14550@127.0.0.1:14551"/>
-  <arg name="gcs_url" default="udp://:14551@127.0.0.1:14552"/>
+  <arg name="fcu_url" default="udp://:14550@127.0.0.1:14549"/>
+  <arg name="gcs_url" default="udp://:14549@127.0.0.1:14548"/>
   <arg name="system_id" default="255"/>
   <arg name="component_id" default="240"/>
   <arg name="tgt_system" default="1"/>

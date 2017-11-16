@@ -60,6 +60,7 @@ class Code(object):
         """Run user code
         """
         while not rospy.is_shutdown():
+            time.sleep(0.1)
             # Try to get data
             try:
                 rospy.loginfo(self.sub.get_data()['mavros']['battery']['voltage'])

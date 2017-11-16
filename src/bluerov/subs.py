@@ -173,7 +173,7 @@ class Subs(object):
     def subscribe_topics(self):
         for topic, msg_type, callback in self.topics:
             self.set_data(topic)
-            rospy.Subscriber(topic, msg_type, callback, callback_args=topic)
+            rospy.Subscriber(topic, msg_type, callback, callback_args=topic, queue_size=1)
 
     def callback(self, data, topic):
         self.set_data(topic, data)

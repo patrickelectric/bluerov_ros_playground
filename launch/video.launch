@@ -1,5 +1,10 @@
 <?xml version="1.0"?>
 
 <launch>
-  <node pkg="bluerov_ros_playground" type="video" name="bluerov_video"/>
+  <arg name="udp_port" default="5600"/>
+  <arg name="log_output" default="log"/>
+
+  <node pkg="bluerov_ros_playground" type="video" name="bluerov_video" output="$(arg log_output)">
+    <param name="udp_port" value="$(arg udp_port)"/>
+  </node>
 </launch>

@@ -2,9 +2,17 @@
 
 import bluerov.video as Video
 import cv2
+import rospy
 
 def main():
-    video = Video.Video()
+    udp_port = 5600
+    try:
+        udp_port = rospy.get_param("/bluerov_video/udp_port")
+        rospy.loginfo("udp_port: {}".format(udp_port))
+    except Exception as error:
+        rospy.loginfo(error)
+
+    video = Video.Video(udp_port)
 
     while True:
         if not video.frame_available():

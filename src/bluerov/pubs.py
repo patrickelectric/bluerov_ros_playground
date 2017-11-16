@@ -5,8 +5,6 @@ import mavros_msgs.msg
 import rospy
 import time
 
-from sensor_msgs.msg import JointState
-
 
 class Pubs(object):
     """Class that control publish data to ROS
@@ -19,17 +17,7 @@ class Pubs(object):
         # Dict with all data
         self.data = {}
         # Get data from topic list
-        self.topics = [
-            # Sensors
-            ['/mavros/rc/override',
-                mavros_msgs.msg.OverrideRCIn,
-                1
-             ],
-            ['/BlueRov2/body_command',
-                JointState,
-                1
-             ]
-        ]
+        self.topics = []
 
         self.subscribe_topics()
 
@@ -109,6 +97,7 @@ if __name__ == '__main__':
         print('pubs error with ROS: ', error)
 
     pub = Pubs()
+    pub.subscribe_topic('/mavros/rc/override', mavros_msgs.msg.OverrideRCIn, 1)
 
     def rc():
         pub.set_data('/mavros/rc/override',

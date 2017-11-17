@@ -17,6 +17,7 @@ except:
     import bluerov.video as video
 
 from geometry_msgs.msg import TwistStamped
+from mavros_msgs.srv import CommandBool
 from sensor_msgs.msg import JointState
 
 
@@ -32,6 +33,11 @@ class Code(object):
 
     def __init__(self):
         super(Code, self).__init__()
+
+        # Do what is necessary to start the process
+        # and to leave gloriously
+        self.arm()
+
         self.sub = subs.Subs()
         self.pub = pubs.Pubs()
 
@@ -47,6 +53,19 @@ class Code(object):
         except Exception as error:
             rospy.loginfo(error)
             self.cam = video.Video()
+
+
+    def arm(self):
+        """ Arm the vehicle and trigger the disarm
+        """
+        rospy.wait_for_service('/mavros/cmd/arming')
+
+        self.arm_service = rospy.ServiceProxy('/mavros/cmd/arming', CommandBool)
+        self.arm_service(True)
+
+        # Disarm is necessary when shutting down
+        rospy.on_shutdown(self.disarm)
+
 
     def pwm_to_thrust(self, pwm):
         """Transform pwm to thruster value
@@ -115,6 +134,9 @@ class Code(object):
                 cv2.waitKey(1)
             except Exception as error:
                 print('imshow error:', error)
+
+    def disarm(self):
+        self.arm_service(False)
 
 
 if __name__ == "__main__":

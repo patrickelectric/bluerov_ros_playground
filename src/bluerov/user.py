@@ -67,7 +67,8 @@ class Code(object):
         rospy.on_shutdown(self.disarm)
 
 
-    def pwm_to_thrust(self, pwm):
+    @staticmethod
+    def pwm_to_thrust(pwm):
         """Transform pwm to thruster value
         The equation come from:
             https://colab.research.google.com/notebook#fileId=1CEDW9ONTJ8Aik-HVsqck8Y_EcHYLg0zK

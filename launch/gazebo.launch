@@ -1,5 +1,6 @@
 <?xml version="1.0"?>
 <launch>
+    <arg name="gui" default="true"/>
     <arg name="model" default="$(find bluerov_ros_playground)/model/BlueRov2.urdf.xacro"/>
 
     <!-- Launch Gazebo with underwater world -->
@@ -13,6 +14,15 @@
         <param name="robot_description" command="$(find xacro)/xacro --inorder $(arg model)"/>
         <node name="spawner" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen" args="-urdf -model BlueRov2 -param robot_description -x 0 -y 0 -z 0 -R 3.14927 -P 0 -Y 0"/>
         <rosparam file="$(find bluerov_ros_playground)/config/bluerov2_thrusters.yaml" command="load"/>
+
+        <!-- Manual control of thruster efforts -->
+        <group ns="thrusters">
+             <param name="robot_description" command="$(find xacro)/xacro --inorder $(find bluerov_ros_playground)/model/BlueRov2_thrusters.urdf"/>
+             <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" respawn="true" if="$(arg gui)">
+             <param name="use_gui" value="True"/>
+             <remap from="joint_states" to="/BlueRov2/thruster_command" />
+             </node>
+        </group>
     </group>
 
     <!-- spawn terrain -->

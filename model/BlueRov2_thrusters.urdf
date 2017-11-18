@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<robot name="thrusters">
+  <joint name="thr1">
+    <limit lower="-40.18" upper="49.98"/>
+  </joint>
+  <joint name="thr2">
+    <limit lower="-40.18" upper="49.98"/>
+  </joint>
+  <joint name="thr3">
+    <limit lower="-40.18" upper="49.98"/>
+  </joint>
+  <joint name="thr4">
+    <limit lower="-40.18" upper="49.98"/>
+  </joint>
+  <joint name="thr5">
+    <limit lower="-40.18" upper="49.98"/>
+  </joint> 
+  <joint name="thr6">
+    <limit lower="-40.18" upper="49.98"/>
+  </joint> 
+</robot>

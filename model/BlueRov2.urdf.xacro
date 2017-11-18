@@ -14,16 +14,16 @@
         </joint>
 
         <link name="${name}">
-            <buoyancy><compensation>1.0</compensation></buoyancy>
-            <!--visual name="${name}">
+            <!--buoyancy><compensation>1.0</compensation></buoyancy>
+            <visual name="${name}">
                 <geometry>
                     <cylinder length=".5" radius=".01"/>
                 </geometry>
                 <material name="black">
                     <color rgba="0 0 0 1"/>
                 </material>
-            </visual>
-            <inertial>
+            </visual-->
+            <!--inertial>
                 <mass value=".1"/>
                 <inertia
                     ixx=".1"
@@ -49,43 +49,44 @@
         <link>base_link</link>
 
         <!-- for each thruster, give the map to XYZ+RPY and the maximum effort -->
-        <!-- https://www.ardusub.com/images/vectored-frame.png -->
+        <!-- Based on 6 thrusters vectored frame https://www.ardusub.com/images/vectored-frame.png -->
+        <!-- BlueRov2 CAD https://grabcad.com/library/bluerov2-1 -->
         <thruster>
             <effort>30</effort>
             <name>thr1</name>
-            <map>1 1 0 0 0 0</map>
+            <map>0.707 0.707 0 0 0 -0.167</map>
         </thruster>
         <thruster>
             <effort>30</effort>
             <name>thr2</name>
-            <map>1 -1 0 0 0 0</map>
+            <map>-0.707 0.707 0 0 0 0.167</map>
         </thruster>
         <thruster>
             <effort>30</effort>
             <name>thr3</name>
-            <map>-1 -1 0 0 0 0</map>
+            <map>0.707 -0.707 0 0 0 0.167</map>
         </thruster>
         <thruster>
             <effort>30</effort>
             <name>thr4</name>
-            <map>1 -1 0 0 0 0</map>
+            <map>-0.707 -0.707 0 0 0 -0.167</map>
         </thruster>
         <thruster>
             <effort>30</effort>
             <name>thr5</name>
-            <map>0 0 0 0 0 1</map>
+            <map>0 0 -1 0 -0.111 0</map>
         </thruster>
         <thruster>
             <effort>30</effort>
             <name>thr6</name>
-            <map>0 0 0 0 0 1</map>
+            <map>0 0 -1 0 0.111 0</map>
         </thruster>
     </plugin>
     </gazebo>
 
   <link name="base_link">
     <visual>
-      <origin xyz="0 0 0" rpy="${-PI} 0 0"/>
+      <origin xyz="0 0 0" rpy="${PI} 0 0"/>
       <geometry>
         <mesh filename="package://bluerov_ros_playground/model/BlueRov2.stl" scale="0.1 0.1 0.1" />
       </geometry>
@@ -94,12 +95,12 @@
       <origin xyz="0 0 0" rpy="0 0 0"/>
       <mass value="11"/>
     <inertia
-      ixx="5"
+      ixx="1"
       ixy="0"
       ixz="0"
-      iyy="5"
-      iyz="5"
-      izz="5"/>
+      iyy="1"
+      iyz="0"
+      izz="1"/>
     </inertial>
     <!--collision>
       <origin xyz="0 0 0" rpy="0 0 0"/>
@@ -114,16 +115,6 @@
         <damping xyz="100 200 150" rpy="50 50 50"/>
     </buoyancy>
   </link>
-
-<!-- Based on 6 thrusters vectored frame https://www.ardusub.com/images/vectored-frame.png -->
-<!-- BlueRov2 CAD https://grabcad.com/library/bluerov2-1 -->
-<xacro:thruster_dummy_link name="thr1" xyz="0.137 -0.096 0.02" rpy="${-PI/4} ${PI/2} 0"/>
-<xacro:thruster_dummy_link name="thr2" xyz="0.137 0.096 0.02" rpy="${PI/4} ${PI/2} 0"/>
-<xacro:thruster_dummy_link name="thr3" xyz="-0.137 -0.096 0.02" rpy="${PI/4} ${PI/2} 0"/>
-<xacro:thruster_dummy_link name="thr4" xyz="-0.137 0.096 0.02" rpy="${-PI/4} ${PI/2} 0"/>
-<xacro:thruster_dummy_link name="thr5" xyz="-0.111 0 0.07" rpy="0 0 0"/>
-<xacro:thruster_dummy_link name="thr6" xyz="0.111 0 0.07" rpy="0 0 0"/>
-
 
   <link name="camera_link">
     <!-- visual>

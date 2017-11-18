@@ -188,6 +188,7 @@ install(FILES
 
 install(DIRECTORY
   model
+  config
   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
 )
 

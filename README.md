@@ -5,7 +5,10 @@ What is possible ?
 - Read and write over mavlink protocol with MAVROS
 - Joystick interaction
 - Gazebo simulation
-![](doc/imgs/bluerov2_gazebo_underwater.png?raw=true)
+
+<p align="center">
+  <img src="doc/imgs/bluerov2_gazebo_underwater.png">
+</p>
 
 ## Getting Started
 

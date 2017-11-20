@@ -195,6 +195,7 @@ install(DIRECTORY
 catkin_install_python(PROGRAMS
   src/bluerov/bin/user_mav
   src/bluerov/bin/video
+  src/bluerov/gazebo_teleop.py
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 

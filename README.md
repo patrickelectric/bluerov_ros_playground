@@ -59,6 +59,13 @@ What is possible ?
     - Run SITL and start gazebo.launch
     - `roslaunch bluerov_ros_playground gazebo.launch`
 
+- Gazebo Teleop
+
+    It'll open a window with the camera stream and Gazebo, a joystick can be used to control the ROV.
+    - `roslaunch bluerov_ros_playground gazebo_teleop.launch`
+
+    To change the default joystick input (`/dev/input/js0`), it's possible add the parameter `joy_dev:=/dev/input/jsX` when launching the simulation.
+
 - RVIZ
 
     Visualize 3D model

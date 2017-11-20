@@ -150,6 +150,10 @@ class Subs(object):
             ['/joy',
                 sensor_msgs.msg.Joy,
                 self.callback
+             ],
+            ['/BlueRov2/state',
+                nav_msgs.msg.Odometry,
+                self.callback
              ]
         ]
 

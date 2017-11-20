@@ -44,7 +44,7 @@ What is possible ?
     This example will start user example, reading data from mavlink, interacting with joystick over rc commands and showing ROV video stream.
     - `roslaunch bluerov_ros_playground user_mav.launch`
 
-    To run QGC parallel with user_mav, it's necessary to run user_mav first.
+    To run QGC parallel with user_mav, it's necessary to run user_mav first. If it's necessary to change the input, the parameter `joy_dev` can be used to set the one used.
 
 - Visualize video stream
 

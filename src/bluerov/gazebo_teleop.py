@@ -29,7 +29,7 @@ class GazeboTeleop(object):
         self.sub = subs.Subs()
         self.pub = pubs.Pubs()
 
-        self.pub.subscribe_topic('/BlueRov2/body_command', JointState, 1)
+        self.pub.subscribe_topic('/BlueRov2/thruster_command', JointState, 1)
 
     def run(self):
         """Run code
@@ -59,7 +59,7 @@ class GazeboTeleop(object):
                 joint.name = ["thr{}".format(u + 1) for u in range(6)]
                 joint.position = [pwm for pwm in forces]
 
-                self.pub.set_data('/BlueRov2/body_command', joint)
+                self.pub.set_data('/BlueRov2/thruster_command', joint)
             except Exception as error:
                 print('rc error:', error)
 

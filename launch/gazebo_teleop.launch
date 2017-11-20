@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<launch>
+    <arg name="joy_dev" default="/dev/input/js0"/>
+    <arg name="log_output" default="log"/>
+    <arg name="model" default="$(find bluerov_ros_playground)/model/BlueRov2.urdf.xacro"/>
+
+    <!-- Launch Gazebo with underwater world -->
+    <include file="$(find gazebo_ros)/launch/empty_world.launch">
+        <arg name="paused" value="true"/>
+        <arg name="world_name" value="$(find freefloating_gazebo)/world/underwater.world"/>
+    </include>
+
+    <group ns="BlueRov2">
+        <!-- spawn in Gazebo with GUI -->
+        <param name="robot_description" command="$(find xacro)/xacro --inorder $(arg model)"/>
+        <node name="spawner" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen" args="-urdf -model BlueRov2 -param robot_description -x 0 -y 0 -z 0 -R 3.14927 -P 0 -Y 0"/>
+        <rosparam file="$(find bluerov_ros_playground)/config/bluerov2_thrusters.yaml" command="load"/>
+    </group>
+
+    <!-- spawn terrain -->
+    <param name="terrain_description" command="$(find xacro)/xacro $(find freefloating_gazebo_demo)/terrain/shipwreck/terrain.sdf"/>
+    <node name="terrain_spawner" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen" args="-sdf -model terrain -param terrain_description -x 0 -y 0 -z 0 -R 0 -P 0 -Y 0"/>
+
+    <!-- start the joystick driver -->
+    <node respawn="true" pkg="joy" type="joy_node" name="joy_node">
+        <param name="dev" type="string" value="$(arg joy_dev)"/>
+    </node>
+    
+    <!-- start the image_view -->
+    <node respawn="true" pkg="image_view" type="image_view" name="image_view">
+        <remap from="image" to="/BlueRov2/camera/image_raw" />
+    </node>
+
+    <node pkg="bluerov_ros_playground" type="gazebo_teleop.py" name="gazebo_teleop" output="$(arg log_output)"/>
+</launch>

@@ -179,6 +179,7 @@ include_directories(
 ## Mark other files for installation (e.g. launch and bag files, etc.)
 install(FILES
   launch/gazebo.launch
+  launch/gazebo_teleop.launch
   launch/rviz.launch
   launch/mav_pluginlists.yaml
   launch/user_mav.launch

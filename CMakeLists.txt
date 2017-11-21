@@ -180,6 +180,7 @@ include_directories(
 install(FILES
   launch/gazebo.launch
   launch/gazebo_teleop.launch
+  launch/gazebo_sitl.launch
   launch/rviz.launch
   launch/mav_pluginlists.yaml
   launch/user_mav.launch
@@ -197,6 +198,7 @@ catkin_install_python(PROGRAMS
   src/bluerov/bin/user_mav
   src/bluerov/bin/video
   src/bluerov/gazebo_teleop.py
+  src/bluerov/sitl.py
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 

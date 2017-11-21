@@ -1,0 +1,54 @@
+<?xml version="1.0"?>
+<launch>
+    <arg name="log_output" default="log"/>
+    <arg name="model" default="$(find bluerov_ros_playground)/model/BlueRov2.urdf.xacro"/>
+
+    <arg name="fcu_url" default="udp://:14550@127.0.0.1:14549"/>
+    <arg name="gcs_url" default="udp://:14549@127.0.0.1:14548"/>
+    <arg name="system_id" default="255"/>
+    <arg name="component_id" default="240"/>
+    <arg name="tgt_system" default="1"/>
+    <arg name="tgt_component" default="1"/>
+    <arg name="pluginlists_yaml" value="$(find bluerov_ros_playground)/launch/mav_pluginlists.yaml"/>
+    <arg name="config_yaml" value="$(find mavros)/launch/apm_config.yaml"/>
+
+    <!-- Launch Gazebo with underwater world -->
+    <include file="$(find gazebo_ros)/launch/empty_world.launch">
+        <arg name="paused" value="false"/>
+        <arg name="world_name" value="$(find freefloating_gazebo)/world/underwater.world"/>
+    </include>
+
+    <group ns="BlueRov2">
+        <!-- spawn in Gazebo with GUI -->
+        <param name="robot_description" command="$(find xacro)/xacro --inorder $(arg model)"/>
+        <node name="spawner" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen" args="-urdf -model BlueRov2 -param robot_description -x 0 -y 0 -z 0 -R 3.14927 -P 0 -Y 0"/>
+        <rosparam file="$(find bluerov_ros_playground)/config/bluerov2_thrusters.yaml" command="load"/>
+    </group>
+
+    <!-- spawn terrain -->
+    <param name="terrain_description" command="$(find xacro)/xacro $(find freefloating_gazebo_demo)/terrain/shipwreck/terrain.sdf"/>
+    <node name="terrain_spawner" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen" args="-sdf -model terrain -param terrain_description -x 0 -y 0 -z 0 -R 0 -P 0 -Y 0"/>
+
+    <node pkg="mavros" type="mavros_node" name="mavros" required="true" clear_params="true" output="$(arg log_output)">
+        <param name="fcu_url" value="$(arg fcu_url)"/>
+        <param name="gcs_url" value="$(arg gcs_url)"/>
+        <param name="system_id" value="$(arg system_id)"/>
+        <param name="component_id" value="$(arg component_id)"/>
+        <param name="target_system_id" value="$(arg tgt_system)"/>
+        <param name="target_component_id" value="$(arg tgt_component)"/>
+
+        <!-- load blacklist, config -->
+        <rosparam command="load" file="$(arg pluginlists_yaml)"/>
+        <rosparam command="load" file="$(arg config_yaml)"/>
+    </node>
+
+    <node pkg="rosservice" type="rosservice" name="mavros_set_stream" args="call --wait /mavros/set_stream_rate 0 10 1"/>
+
+    <!-- start the image_view -->
+    <node respawn="true" pkg="image_view" type="image_view" name="image_view">
+        <remap from="image" to="/BlueRov2/camera/image_raw" />
+    </node>
+
+    <!-- start sitl bridge -->
+    <node pkg="bluerov_ros_playground" type="sitl.py" name="gazebo_sitl" output="$(arg log_output)"/>
+</launch>

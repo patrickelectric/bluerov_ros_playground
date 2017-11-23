@@ -86,9 +86,9 @@
 
   <link name="base_link">
     <visual>
-      <origin xyz="0 0 0" rpy="${PI} 0 0"/>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
       <geometry>
-        <mesh filename="package://bluerov_ros_playground/model/BlueRov2.stl" scale="0.1 0.1 0.1" />
+        <mesh filename="package://bluerov_ros_playground/model/BlueRov2.dae"/>
       </geometry>
     </visual>
     <inertial>

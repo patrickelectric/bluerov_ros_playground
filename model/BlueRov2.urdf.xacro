@@ -109,10 +109,20 @@
       </geometry>
     </collision-->
     <buoyancy>
-        <compensation>1.01</compensation>
-        <origin xyz= "0 0 0"/>
-        <limit radius=".5"/>
-        <damping xyz="100 200 150" rpy="50 50 50"/>
+        <compensation>0.2525</compensation>
+        <origin xyz= "0.12585 0.111 -0.8945"/>
+    </buoyancy>
+    <buoyancy>
+        <compensation>0.2525</compensation>
+        <origin xyz= "-0.12585 0.111 -0.8945"/>
+    </buoyancy>
+    <buoyancy>
+        <compensation>0.2525</compensation>
+        <origin xyz= "-0.12585 -0.111 -0.8945"/>
+    </buoyancy>
+    <buoyancy>
+        <compensation>0.2525</compensation>
+        <origin xyz= "0.12585 -0.111 -0.8945"/>
     </buoyancy>
   </link>
 

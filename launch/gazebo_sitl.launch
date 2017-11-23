@@ -3,7 +3,7 @@
     <arg name="log_output" default="log"/>
     <arg name="model" default="$(find bluerov_ros_playground)/model/BlueRov2.urdf.xacro"/>
 
-    <arg name="fcu_url" default="udp://:14550@127.0.0.1:14549"/>
+    <arg name="fcu_url" default="udp://:14551@127.0.0.1:14549"/>
     <arg name="gcs_url" default="udp://:14549@127.0.0.1:14548"/>
     <arg name="system_id" default="255"/>
     <arg name="component_id" default="240"/>

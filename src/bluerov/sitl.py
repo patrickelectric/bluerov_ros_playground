@@ -17,6 +17,7 @@ except:
 
 from gazebo_msgs.msg import ModelState
 from mavros_msgs.srv import CommandBool, SetMode
+from geometry_msgs.msg import PoseStamped
 
 
 class SITL(object):
@@ -36,6 +37,7 @@ class SITL(object):
         self.sub = subs.Subs()
         self.pub = pubs.Pubs()
 
+        self.sub.subscribe_topic('/mavros/local_position/pose', PoseStamped)
         self.pub.subscribe_topic('/gazebo/set_model_state', ModelState, 1)
 
     def run(self):

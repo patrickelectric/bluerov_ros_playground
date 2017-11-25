@@ -18,7 +18,10 @@ except:
 
 from geometry_msgs.msg import TwistStamped
 from mavros_msgs.srv import CommandBool
-from sensor_msgs.msg import JointState
+from sensor_msgs.msg import JointState, Joy
+
+from sensor_msgs.msg import BatteryState
+from mavros_msgs.msg import RCIn, RCOut
 
 
 class Code(object):
@@ -44,6 +47,11 @@ class Code(object):
         self.pub.subscribe_topic('/mavros/rc/override', mavros_msgs.msg.OverrideRCIn, 1)
         self.pub.subscribe_topic('/mavros/setpoint_velocity/cmd_vel', TwistStamped, 1)
         self.pub.subscribe_topic('/BlueRov2/body_command', JointState, 1)
+
+        self.sub.subscribe_topic('/joy', Joy)
+        self.sub.subscribe_topic('/mavros/battery', BatteryState)
+        self.sub.subscribe_topic('/mavros/rc/in', RCIn)
+        self.sub.subscribe_topic('/mavros/rc/out', RCOut)
 
         self.cam = None
         try:

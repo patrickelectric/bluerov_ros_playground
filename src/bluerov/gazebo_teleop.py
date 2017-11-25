@@ -18,7 +18,8 @@ except:
 
 from geometry_msgs.msg import TwistStamped
 from mavros_msgs.srv import CommandBool
-from sensor_msgs.msg import JointState
+from nav_msgs.msg import Odometry
+from sensor_msgs.msg import JointState, Joy
 
 
 class GazeboTeleop(object):
@@ -37,6 +38,9 @@ class GazeboTeleop(object):
         self.pub = pubs.Pubs()
 
         self.pub.subscribe_topic('/BlueRov2/thruster_command', JointState, 1)
+
+        self.sub.subscribe_topic('/BlueRov2/state', Odometry)
+        self.sub.subscribe_topic('/joy', Joy)
 
     def run(self):
         """ Run Gazebo Teleop

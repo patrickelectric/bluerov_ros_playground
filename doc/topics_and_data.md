@@ -1,39 +1,73 @@
 # Topics and Data
 - List of all topics
-    ```py
-    ['mavros']['battery']
-    ['mavros']['global_position']['global']
-    ['mavros']['global_position']['raw']['fix']
-    ['mavros']['imu']['atm_pressure']
-    ['mavros']['imu']['data']
-    ['mavros']['imu']['data_raw']
-    ['mavros']['imu']['mag']
-    ['mavros']['imu']['temperature']
-    ['mavros']['time_reference']
-    ['mavlink']['from']
-    ['mavros']['altitude']
-    ['mavros']['extended_state']
-    ['mavros']['global_position']['compass_hdg']
-    ['mavros']['global_position']['rel_alt']
-    ['mavros']['hil_actuator_controls']
-    ['mavros']['manual_control']['control']
-    ['mavros']['mission']['waypoints']
-    ['mavros']['radio_status']
-    ['mavros']['rc']['in']
-    ['mavros']['rc']['out']
-    ['mavros']['setpoint_raw']['target_attitude']
-    ['mavros']['setpoint_raw']['target_global']
-    ['mavros']['setpoint_raw']['target_local']
-    ['mavros']['state']
-    ['mavros']['local_position']['pose']
-    ['mavros']['wind_estimation']
-    ['mavros']['local_position']['velocity']
-    ['mavros']['global_position']['local']
-    ['mavros']['global_position']['odom']
-    ['mavros']['global_position']['raw']['gps_vel']
-    ['diagnostics']
-    ```
-- YAML of what is possible to get:
+    - **/diagnostics** - `diagnostic_msgs/DiagnosticArray`
+    - **/mavlink/from** - `mavros_msgs/Mavlink`
+    - **/mavlink/to** - `mavros_msgs/Mavlink`
+    - **/mavros/adsb/send** - `mavros_msgs/ADSBVehicle`
+    - **/mavros/adsb/vehicle** - `mavros_msgs/ADSBVehicle`
+    - **/mavros/battery** - `sensor_msgs/BatteryState`
+    - **/mavros/cam_imu_sync/cam_imu_stamp** - `mavros_msgs/CamIMUStamp`
+    - **/mavros/distance_sensor/rangefinder_pub** - `sensor_msgs/Range`
+    - **/mavros/distance_sensor/rangefinder_sub** - `sensor_msgs/Range`
+    - **/mavros/extended_state** - `mavros_msgs/ExtendedState`
+    - **/mavros/fake_gps/mocap/tf** - `geometry_msgs/TransformStamped`
+    - **/mavros/global_position/compass_hdg** - `std_msgs/Float64`
+    - **/mavros/global_position/global** - `sensor_msgs/NavSatFix`
+    - **/mavros/global_position/gp_lp_offset** - `geometry_msgs/PoseStamped`
+    - **/mavros/global_position/gp_origin** - `geographic_msgs/GeoPointStamped`
+    - **/mavros/global_position/home** - `mavros_msgs/HomePosition`
+    - **/mavros/global_position/local** - `nav_msgs/Odometry`
+    - **/mavros/global_position/raw/fix** - `sensor_msgs/NavSatFix`
+    - **/mavros/global_position/raw/gps_vel** - `geometry_msgs/TwistStamped`
+    - **/mavros/global_position/rel_alt** - `std_msgs/Float64`
+    - **/mavros/global_position/set_gp_origin** - `geographic_msgs/GeoPointStamped`
+    - **/mavros/hil/actuator_controls** - `mavros_msgs/HilActuatorControls`
+    - **/mavros/hil/controls** - `mavros_msgs/HilControls`
+    - **/mavros/hil/gps** - `mavros_msgs/HilGPS`
+    - **/mavros/hil/imu_ned** - `mavros_msgs/HilSensor`
+    - **/mavros/hil/optical_flow** - `mavros_msgs/OpticalFlowRad`
+    - **/mavros/hil/rc_inputs** - `mavros_msgs/RCIn`
+    - **/mavros/hil/state** - `mavros_msgs/HilStateQuaternion`
+    - **/mavros/home_position/home** - `mavros_msgs/HomePosition`
+    - **/mavros/home_position/set** - `mavros_msgs/HomePosition`
+    - **/mavros/imu/atm_pressure** - `sensor_msgs/FluidPressure`
+    - **/mavros/imu/data** - `sensor_msgs/Imu`
+    - **/mavros/imu/data_raw** - `sensor_msgs/Imu`
+    - **/mavros/imu/mag** - `sensor_msgs/MagneticField`
+    - **/mavros/imu/temperature** - `sensor_msgs/Temperature`
+    - **/mavros/local_position/odom** - `nav_msgs/Odometry`
+    - **/mavros/local_position/pose** - `geometry_msgs/PoseStamped`
+    - **/mavros/local_position/velocity** - `geometry_msgs/TwistStamped`
+    - **/mavros/manual_control/control** - `mavros_msgs/ManualControl`
+    - **/mavros/mission/reached** - `mavros_msgs/WaypointReached`
+    - **/mavros/mission/waypoints** - `mavros_msgs/WaypointList`
+    - **/mavros/odometry/odom** - `nav_msgs/Odometry`
+    - **/mavros/radio_status** - `mavros_msgs/RadioStatus`
+    - **/mavros/rangefinder/rangefinder** - `sensor_msgs/Range`
+    - **/mavros/rc/in** - `mavros_msgs/RCIn`
+    - **/mavros/rc/out** - `mavros_msgs/RCOut`
+    - **/mavros/rc/override** - `mavros_msgs/OverrideRCIn`
+    - **/mavros/setpoint_accel/accel** - `geometry_msgs/Vector3Stamped`
+    - **/mavros/setpoint_attitude/cmd_vel** - `geometry_msgs/TwistStamped`
+    - **/mavros/setpoint_attitude/thrust** - `mavros_msgs/Thrust`
+    - **/mavros/setpoint_position/local** - `geometry_msgs/PoseStamped`
+    - **/mavros/setpoint_raw/attitude** - `mavros_msgs/AttitudeTarget`
+    - **/mavros/setpoint_raw/global** - `mavros_msgs/GlobalPositionTarget`
+    - **/mavros/setpoint_raw/local** - `mavros_msgs/PositionTarget`
+    - **/mavros/setpoint_raw/target_attitude** - `mavros_msgs/AttitudeTarget`
+    - **/mavros/setpoint_raw/target_global** - `mavros_msgs/GlobalPositionTarget`
+    - **/mavros/setpoint_raw/target_local** - `mavros_msgs/PositionTarget`
+    - **/mavros/setpoint_velocity/cmd_vel** - `geometry_msgs/TwistStamped`
+    - **/mavros/setpoint_velocity/cmd_vel_unstamped** - `geometry_msgs/Twist`
+    - **/mavros/state** - `mavros_msgs/State`
+    - **/mavros/time_reference** - `sensor_msgs/TimeReference`
+    - **/mavros/vfr_hud** - `mavros_msgs/VFR_HUD`
+    - **/mavros/wind_estimation** - `geometry_msgs/TwistStamped`
+    - **/rosout** - `rosgraph_msgs/Log`
+    - **/rosout_agg** - `rosgraph_msgs/Log`
+    - **/tf** - `tf2_msgs/TFMessage`
+    - **/tf_static** - `tf2_msgs/TFMessage`
+- YAML:
 ```yaml
 {
   "mavros": {

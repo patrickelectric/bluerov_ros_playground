@@ -1,23 +1,15 @@
 #!/usr/bin/env python
 
-import cv2
-import mavros_msgs
 import rospy
-import signal
-import sys
 import time
 
 try:
     import pubs
     import subs
-    import video
 except:
     import bluerov.pubs as pubs
     import bluerov.subs as subs
-    import bluerov.video as video
 
-from geometry_msgs.msg import TwistStamped
-from mavros_msgs.srv import CommandBool
 from nav_msgs.msg import Odometry
 from sensor_msgs.msg import JointState, Joy
 

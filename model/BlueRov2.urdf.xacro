@@ -139,7 +139,7 @@
   <joint name="camera_joint" type="fixed">
     <parent link="base_link"/>
     <child link="camera_link"/>
-    <origin rpy="${PI} 0 ${PI/2}" xyz="0 0.21 -0.042"/>
+    <origin rpy="${PI} 0 ${PI/2}" xyz="0 0.21 -0.067"/>
     <axis xyz="1 0 0" />
   </joint>
 

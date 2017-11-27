@@ -7,6 +7,13 @@ import yaml
 
 
 class Subs(object):
+    """ Manage topic subscription
+
+    Attributes:
+        data (dict): Description
+        topics (TYPE): Description
+    """
+
     def __init__(self):
         # Dict with all data
         self.data = {}
@@ -17,9 +24,21 @@ class Subs(object):
         self.subscribe_topics()
 
     def get_data(self):
+        """ Return dict
+
+        Returns:
+            dict: dict with all topics data
+        """
         return self.data
 
     def set_data(self, path, value={}):
+        """ Add data and topic to dict
+
+        Args:
+            path (string): ROS topic
+            value (dict, optional): ROS topic data
+        """
+
         # The first item will be empty
         keys = path.split('/')[1:]
         current_level = self.data
@@ -32,14 +51,29 @@ class Subs(object):
             current_level.update(yaml.load(str(value)))
 
     def subscribe_topic(self, topic, msg_type, queue_size=1):
+        """ Subscribe in ROS topic
+
+        Args:
+            topic (string): ROS topic
+            msg_type (struct): ROS msg type
+            queue_size (int, optional): ROS buffer size
+        """
         self.set_data(topic)
         rospy.Subscriber(topic, msg_type, self.callback, callback_args=topic, queue_size=queue_size)
 
     def subscribe_topics(self):
+        """ Subscribe to class topics
+        """
         for topic, msg_type in self.topics:
             self.subscribe_topic(topic, msg_type)
 
     def callback(self, data, topic):
+        """ ROS callback
+
+        Args:
+            data (string): Data from ROS topic
+            topic (string): ROS topic name
+        """
         self.set_data(topic, data)
 
 

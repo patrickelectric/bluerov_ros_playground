@@ -29,7 +29,7 @@ class GazeboTeleop(object):
         self.sub = subs.Subs()
         self.pub = pubs.Pubs()
 
-        self.pub.subscribe_topic('/BlueRov2/thruster_command', JointState, 1)
+        self.pub.subscribe_topic('/BlueRov2/thruster_command', JointState)
 
         self.sub.subscribe_topic('/BlueRov2/state', Odometry)
         self.sub.subscribe_topic('/joy', Joy)

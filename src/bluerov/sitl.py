@@ -35,7 +35,7 @@ class SITL(object):
         self.pub = pubs.Pubs()
 
         self.sub.subscribe_topic('/mavros/local_position/pose', PoseStamped)
-        self.pub.subscribe_topic('/gazebo/set_model_state', ModelState, 1)
+        self.pub.subscribe_topic('/gazebo/set_model_state', ModelState)
 
     @staticmethod
     def quaternion_from_axis(axis, angle=0):

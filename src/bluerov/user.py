@@ -41,9 +41,9 @@ class Code(object):
         self.sub = subs.Subs()
         self.pub = pubs.Pubs()
 
-        self.pub.subscribe_topic('/mavros/rc/override', OverrideRCIn, 1)
-        self.pub.subscribe_topic('/mavros/setpoint_velocity/cmd_vel', TwistStamped, 1)
-        self.pub.subscribe_topic('/BlueRov2/body_command', JointState, 1)
+        self.pub.subscribe_topic('/mavros/rc/override', OverrideRCIn)
+        self.pub.subscribe_topic('/mavros/setpoint_velocity/cmd_vel', TwistStamped)
+        self.pub.subscribe_topic('/BlueRov2/body_command', JointState)
 
         self.sub.subscribe_topic('/joy', Joy)
         self.sub.subscribe_topic('/mavros/battery', BatteryState)

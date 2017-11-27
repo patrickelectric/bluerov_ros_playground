@@ -58,7 +58,7 @@ class Pubs(object):
         if pub is not None:
             current_level.update({'pub': pub})
 
-    def subscribe_topic(self, topic, msg_type, queue=256):
+    def subscribe_topic(self, topic, msg_type, queue=1):
         """Update dict with topic
 
         Args:
@@ -97,7 +97,7 @@ if __name__ == '__main__':
         print('pubs error with ROS: ', error)
 
     pub = Pubs()
-    pub.subscribe_topic('/mavros/rc/override', mavros_msgs.msg.OverrideRCIn, 1)
+    pub.subscribe_topic('/mavros/rc/override', mavros_msgs.msg.OverrideRCIn)
 
     def rc():
         pub.set_data('/mavros/rc/override',

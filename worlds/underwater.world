@@ -1,0 +1,48 @@
+<?xml version="1.0" ?>
+<sdf version="1.4">
+  <world name="underwater">
+    <include>
+      <uri>model://sun</uri>
+    </include>
+    <!-- buoyancy plugin -->
+    <!-- Do not work without ROS -->
+    <!-- plugin name="freefloating_gazebo_fluid" filename="libfreefloating_gazebo_fluid.so">
+              <descriptionParam>robot_description</descriptionParam>
+              <fluidTopic>current</fluidTopic>
+              <alwaysOn>true</alwaysOn>
+              <surface>0 0 0</surface>
+              <updateRate>.001</updateRate>
+          </plugin-->
+    <model name="terrain">
+    <static>true</static>
+    <link name="link">
+      <visual name="visual">
+        <geometry>
+          <mesh>
+            <uri>file://terrain.dae</uri>
+          </mesh>
+        </geometry>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <mesh>
+            <uri>file://terrain.dae</uri>
+          </mesh>
+        </geometry>
+        <surface>
+          <friction>
+            <ode>
+              <mu>100</mu>
+              <mu2>50</mu2>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+  </model>
+  <include>
+    <uri>model://BlueRov2</uri>
+    <pose>0.3 0.5 0.9 0 0 0</pose>
+  </include>
+  </world>
+</sdf>

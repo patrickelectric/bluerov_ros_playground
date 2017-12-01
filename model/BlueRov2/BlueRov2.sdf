@@ -1,14 +1,9 @@
 <?xml version='1.0'?>
 <sdf version='1.5'>
   <model name='BlueRov2'>
-    <pose>0 0 0.194923 0 0 0</pose>
+    <pose>0 0 0 0 0 0</pose>
     <link name='base_link'>
-      <velocity_decay>
-        <linear>0.0</linear>
-        <angular>0.0</angular>
-      </velocity_decay>
       <inertial>
-        <pose>0 0 0 0 0 0</pose>
         <mass>11</mass>
         <inertia>
           <ixx>1</ixx>
@@ -19,7 +14,7 @@
           <izz>1</izz>
         </inertia>
       </inertial>
-      <collision name='base_link_collision'>
+      <!--collision name='base_link_collision'>
         <pose>0 0 -0.08 0 0 0</pose>
         <geometry>
           <box>
@@ -33,14 +28,8 @@
               <min_depth>0.001</min_depth>
             </ode>
           </contact>
-          <friction>
-            <ode>
-              <mu>100000.0</mu>
-              <mu2>100000.0</mu2>
-            </ode>
-          </friction>
         </surface>
-      </collision>
+      </collision-->
       <visual name='base_link_visual'>
         <geometry>
           <mesh>
@@ -50,10 +39,10 @@
         </geometry>
       </visual>
     </link>
-    <link name='BlueRov/ground_truth/odometry_sensorgt_link'>
-      <pose>0 0 0 0 -0 0</pose>
+    <link name='odometry_sensorgt_link'>
+      <pose>0 0 0 0 0 0</pose>
       <inertial>
-        <pose>0 0 0 0 -0 0</pose>
+        <pose>0 0 0 0 0 0</pose>
         <mass>0.15</mass>
         <inertia>
           <ixx>0.0001</ixx>
@@ -65,8 +54,8 @@
         </inertia>
       </inertial>
     </link>
-    <joint name='BlueRov/ground_truth/odometry_sensorgt_joint' type='revolute'>
-      <child>BlueRov/ground_truth/odometry_sensorgt_link</child>
+    <!--joint name='odometry_sensorgt_joint' type='revolute'>
+      <child>odometry_sensorgt_link</child>
       <parent>base_link</parent>
       <axis>
         <xyz>0 0 1</xyz>
@@ -86,8 +75,8 @@
           <implicit_spring_damper>1</implicit_spring_damper>
         </ode>
       </physics>
-    </joint>
-    <link name='BlueRov/imu_link'>
+    </joint-->
+    <link name='imu_link'>
       <inertial>
         <pose>0 0 0 0 0 0</pose>
         <mass>0.15</mass>
@@ -101,13 +90,13 @@
         </inertia>
       </inertial>
       <sensor name="imu_sensor" type="imu">
-        <pose>0 0 0 3.141593 0 0</pose>
+        <pose>0 0 0 0 0 0</pose>
         <always_on>1</always_on>
-        <update_rate>1000.0</update_rate>
+        <!--update_rate>1000.0</update_rate-->
       </sensor>
     </link>
-    <joint name='BlueRov/imu_joint' type='revolute'>
-      <child>BlueRov/imu_link</child>
+    <!--joint name='imu_joint' type='revolute'>
+      <child>imu_link</child>
       <parent>base_link</parent>
       <axis>
         <xyz>0 0 1</xyz>
@@ -127,8 +116,42 @@
           <implicit_spring_damper>1</implicit_spring_damper>
         </ode>
       </physics>
+    </joint-->
+
+  <!--
+    <link name='propeller'>
+      <pose>0 0 0.3455 3.14159 0 0</pose>
+      <inertial>
+        <mass>8.410409900000001</mass>
+        <inertia>
+          <ixx>0.17730244606378792</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>0.17730244606378792</iyy>
+          <iyz>0</iyz>
+          <izz>0.35043374583333337</izz>
+        </inertia>
+      </inertial>
+    </link>
+
+      <joint name='spinning_joint' type='revolute'>
+      <parent>base_link</parent>
+      <child>propeller</child>
+      <axis>
+        <xyz>0 0 1</xyz>
+        <use_parent_model_frame>1</use_parent_model_frame>
+        <limit>
+          <lower>-1e+12</lower>
+          <upper>1e+12</upper>
+          <effort>-1</effort>
+          <velocity>-1</velocity>
+        </limit>
+      </axis>
     </joint>
-<!--
+
+    <allow_auto_disable>1</allow_auto_disable>
+  -->
+  <!--
     <link name='BlueRov/imugt_link'>
       <pose>0 0 0 0 -0 0</pose>
       <inertial>
@@ -162,6 +185,29 @@
         <use_parent_model_frame>1</use_parent_model_frame>
       </axis>
     </joint>
--->
+  -->
+  <plugin name="ArduCopterPlugin" filename="libArduCopterPlugin.so">
+  <!--plugin name="ArduPilotPlugin" filename="libArduPilotPlugin.so"-->
+    <fdm_addr>127.0.0.1</fdm_addr>
+    <fdm_port_in>9002</fdm_port_in>
+    <fdm_port_out>9003</fdm_port_out>
+    <!--
+        Require by APM :
+        Only change model and gazebo from XYZ to XY-Z coordinates
+    -->
+    <modelXYZToAirplaneXForwardZDown>0 0 0 1 1 1</modelXYZToAirplaneXForwardZDown>
+    <gazeboXYZToNED>0 0 0 0.1 0.1 0.1</gazeboXYZToNED>
+    <!--imuName>BlueRov2::imu_link::imu_sensor</imuName-->
+    <imuName>imu_link::imu_sensor</imuName>
+    <connectionTimeoutMaxCount>5</connectionTimeoutMaxCount>
+  </plugin>
+  <!-- mass*1.00/fluid_density = volume -->
+  <!--plugin name="BuoyancyPlugin" filename="libBuoyancyPlugin.so">
+    <fluid_density>1000</fluid_density>
+     <link name="base_link">
+      <center_of_volume>0 0 0</center_of_volume>
+      <volume>0.0110001</volume>
+    </link>
+  </plugin-->
   </model>
 </sdf>

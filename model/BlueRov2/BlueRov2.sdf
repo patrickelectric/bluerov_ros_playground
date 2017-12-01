@@ -50,7 +50,7 @@
         </geometry>
       </visual>
     </link>
-    <link name='BlueRov/ground_truth/odometry_sensorgt_link'>
+    <link name='odometry_sensorgt_link'>
       <pose>0 0 0 0 -0 0</pose>
       <inertial>
         <pose>0 0 0 0 -0 0</pose>
@@ -65,8 +65,8 @@
         </inertia>
       </inertial>
     </link>
-    <joint name='BlueRov/ground_truth/odometry_sensorgt_joint' type='revolute'>
-      <child>BlueRov/ground_truth/odometry_sensorgt_link</child>
+    <joint name='odometry_sensorgt_joint' type='revolute'>
+      <child>odometry_sensorgt_link</child>
       <parent>base_link</parent>
       <axis>
         <xyz>0 0 1</xyz>
@@ -87,7 +87,7 @@
         </ode>
       </physics>
     </joint>
-    <link name='BlueRov/imu_link'>
+    <link name='imu_link'>
       <inertial>
         <pose>0 0 0 0 0 0</pose>
         <mass>0.15</mass>
@@ -101,13 +101,13 @@
         </inertia>
       </inertial>
       <sensor name="imu_sensor" type="imu">
-        <pose>0 0 0 3.141593 0 0</pose>
+        <pose>0 0 0 0 0 0</pose>
         <always_on>1</always_on>
         <update_rate>1000.0</update_rate>
       </sensor>
     </link>
-    <joint name='BlueRov/imu_joint' type='revolute'>
-      <child>BlueRov/imu_link</child>
+    <joint name='imu_joint' type='revolute'>
+      <child>imu_link</child>
       <parent>base_link</parent>
       <axis>
         <xyz>0 0 1</xyz>

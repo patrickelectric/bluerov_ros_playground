@@ -38,8 +38,13 @@
           </mesh>
         </geometry>
       </visual>
+      <sensor name="imu_sensor" type="imu">
+        <pose>0 0 0 0 0 0</pose>
+        <always_on>1</always_on>
+        <update_rate>1000.0</update_rate>
+      </sensor>
     </link>
-    <link name='odometry_sensorgt_link'>
+    <!--link name='odometry_sensorgt_link'>
       <pose>0 0 0 0 0 0</pose>
       <inertial>
         <pose>0 0 0 0 0 0</pose>
@@ -53,7 +58,7 @@
           <izz>0.0002</izz>
         </inertia>
       </inertial>
-    </link>
+    </link-->
     <!--joint name='odometry_sensorgt_joint' type='revolute'>
       <child>odometry_sensorgt_link</child>
       <parent>base_link</parent>
@@ -76,6 +81,7 @@
         </ode>
       </physics>
     </joint-->
+    <!--
     <link name='imu_link'>
       <inertial>
         <pose>0 0 0 0 0 0</pose>
@@ -92,9 +98,9 @@
       <sensor name="imu_sensor" type="imu">
         <pose>0 0 0 0 0 0</pose>
         <always_on>1</always_on>
-        <!--update_rate>1000.0</update_rate-->
+        <update_rate>1000.0</update_rate>
       </sensor>
-    </link>
+    </link-->
     <!--joint name='imu_joint' type='revolute'>
       <child>imu_link</child>
       <parent>base_link</parent>
@@ -186,28 +192,34 @@
       </axis>
     </joint>
   -->
-  <plugin name="ArduCopterPlugin" filename="libArduCopterPlugin.so">
-  <!--plugin name="ArduPilotPlugin" filename="libArduPilotPlugin.so"-->
-    <fdm_addr>127.0.0.1</fdm_addr>
-    <fdm_port_in>9002</fdm_port_in>
-    <fdm_port_out>9003</fdm_port_out>
-    <!--
-        Require by APM :
-        Only change model and gazebo from XYZ to XY-Z coordinates
-    -->
-    <modelXYZToAirplaneXForwardZDown>0 0 0 1 1 1</modelXYZToAirplaneXForwardZDown>
-    <gazeboXYZToNED>0 0 0 0.1 0.1 0.1</gazeboXYZToNED>
-    <!--imuName>BlueRov2::imu_link::imu_sensor</imuName-->
-    <imuName>imu_link::imu_sensor</imuName>
-    <connectionTimeoutMaxCount>5</connectionTimeoutMaxCount>
-  </plugin>
+  <allow_auto_disable>1</allow_auto_disable>
+
   <!-- mass*1.00/fluid_density = volume -->
-  <!--plugin name="BuoyancyPlugin" filename="libBuoyancyPlugin.so">
+  <plugin name="BuoyancyPlugin" filename="libBuoyancyPlugin.so">
     <fluid_density>1000</fluid_density>
      <link name="base_link">
       <center_of_volume>0 0 0</center_of_volume>
       <volume>0.0110001</volume>
     </link>
-  </plugin-->
+  </plugin>
+
+  <!--
+  <plugin name="ArduCopterPlugin" filename="libArduCopterPlugin.so">-->
+  <plugin name="ArduPilotPlugin" filename="libArduPilotPlugin.so">
+    <fdm_addr>127.0.0.1</fdm_addr>
+    <fdm_port_in>9002</fdm_port_in>
+    <fdm_port_out>9003</fdm_port_out>-->
+    <!--
+        Require by APM :
+        Only change model and gazebo from XYZ to XY-Z coordinates
+    -->
+    <!--
+    <modelXYZToAirplaneXForwardZDown>0 0 0 1 1 1</modelXYZToAirplaneXForwardZDown>
+    <gazeboXYZToNED>0 0 0 0.1 0.1 0.1</gazeboXYZToNED-->
+    <imuName>BlueRov2::base_link::imu_sensor</imuName>
+    <!--imuName>imu_link::imu_sensor</imuName-->
+    <connectionTimeoutMaxCount>5</connectionTimeoutMaxCount>
+  </plugin>
+
   </model>
 </sdf>

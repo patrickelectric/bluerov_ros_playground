@@ -14,7 +14,7 @@
           <izz>1</izz>
         </inertia>
       </inertial>
-      <!--collision name='base_link_collision'>
+      <collision name='base_link_collision'>
         <pose>0 0 -0.08 0 0 0</pose>
         <geometry>
           <box>
@@ -29,7 +29,7 @@
             </ode>
           </contact>
         </surface>
-      </collision-->
+      </collision>
       <visual name='base_link_visual'>
         <geometry>
           <mesh>
@@ -44,91 +44,11 @@
         <update_rate>1000.0</update_rate>
       </sensor>
     </link>
-    <!--link name='odometry_sensorgt_link'>
-      <pose>0 0 0 0 0 0</pose>
-      <inertial>
-        <pose>0 0 0 0 0 0</pose>
-        <mass>0.15</mass>
-        <inertia>
-          <ixx>0.0001</ixx>
-          <ixy>0</ixy>
-          <ixz>0</ixz>
-          <iyy>0.0002</iyy>
-          <iyz>0</iyz>
-          <izz>0.0002</izz>
-        </inertia>
-      </inertial>
-    </link-->
-    <!--joint name='odometry_sensorgt_joint' type='revolute'>
-      <child>odometry_sensorgt_link</child>
-      <parent>base_link</parent>
-      <axis>
-        <xyz>0 0 1</xyz>
-        <limit>
-          <lower>0</lower>
-          <upper>0</upper>
-          <effort>0</effort>
-          <velocity>0</velocity>
-        </limit>
-        <dynamics>
-          <damping>1.0</damping>
-        </dynamics>
-        <use_parent_model_frame>1</use_parent_model_frame>
-      </axis>
-      <physics>
-        <ode>
-          <implicit_spring_damper>1</implicit_spring_damper>
-        </ode>
-      </physics>
-    </joint-->
-    <!--
-    <link name='imu_link'>
-      <inertial>
-        <pose>0 0 0 0 0 0</pose>
-        <mass>0.15</mass>
-        <inertia>
-          <ixx>0.00001</ixx>
-          <ixy>0</ixy>
-          <ixz>0</ixz>
-          <iyy>0.00002</iyy>
-          <iyz>0</iyz>
-          <izz>0.00002</izz>
-        </inertia>
-      </inertial>
-      <sensor name="imu_sensor" type="imu">
-        <pose>0 0 0 0 0 0</pose>
-        <always_on>1</always_on>
-        <update_rate>1000.0</update_rate>
-      </sensor>
-    </link-->
-    <!--joint name='imu_joint' type='revolute'>
-      <child>imu_link</child>
-      <parent>base_link</parent>
-      <axis>
-        <xyz>0 0 1</xyz>
-        <limit>
-          <lower>0</lower>
-          <upper>0</upper>
-          <effort>0</effort>
-          <velocity>0</velocity>
-        </limit>
-        <dynamics>
-          <damping>1.0</damping>
-        </dynamics>
-        <use_parent_model_frame>1</use_parent_model_frame>
-      </axis>
-      <physics>
-        <ode>
-          <implicit_spring_damper>1</implicit_spring_damper>
-        </ode>
-      </physics>
-    </joint-->
 
-  <!--
     <link name='propeller'>
-      <pose>0 0 0.3455 3.14159 0 0</pose>
+      <pose>0 0 0.3455 0 0 0</pose>
       <inertial>
-        <mass>8.410409900000001</mass>
+        <mass>1e-14</mass>
         <inertia>
           <ixx>0.17730244606378792</ixx>
           <ixy>0</ixy>
@@ -156,70 +76,61 @@
     </joint>
 
     <allow_auto_disable>1</allow_auto_disable>
-  -->
-  <!--
-    <link name='BlueRov/imugt_link'>
-      <pose>0 0 0 0 -0 0</pose>
-      <inertial>
-        <pose>0 0 0 0 -0 0</pose>
-        <mass>1e-02</mass>
-        <inertia>
-          <ixx>0.0002</ixx>
-          <ixy>0</ixy>
-          <ixz>0</ixz>
-          <iyy>0.0002</iyy>
-          <iyz>0</iyz>
-          <izz>0.0002</izz>
-        </inertia>
-      </inertial>
-    </link>
-    <joint name='BlueRov/imugt_joint' type='revolute'>
-      <child>BlueRov/imugt_link</child>
-      <parent>base_link</parent>
-      <axis>
-        <xyz>0 0 1</xyz>
-        <limit>
-          <lower>0</lower>
-          <upper>0</upper>
-          <effort>0</effort>
-          <velocity>0</velocity>
-        </limit>
-        <dynamics>
-          <spring_reference>0</spring_reference>
-          <spring_stiffness>0</spring_stiffness>
-        </dynamics>
-        <use_parent_model_frame>1</use_parent_model_frame>
-      </axis>
-    </joint>
-  -->
-  <allow_auto_disable>1</allow_auto_disable>
 
-  <!-- mass*1.00/fluid_density = volume -->
-  <plugin name="BuoyancyPlugin" filename="libBuoyancyPlugin.so">
-    <fluid_density>1000</fluid_density>
-     <link name="base_link">
-      <center_of_volume>0 0 0</center_of_volume>
-      <volume>0.0110001</volume>
-    </link>
-  </plugin>
+    <!-- mass*1.00/fluid_density = volume -->
+    <plugin name="BuoyancyPlugin" filename="libBuoyancyPlugin.so">
+      <fluid_density>1000</fluid_density>
+       <link name="base_link">
+        <center_of_volume>0 0 0</center_of_volume>
+        <volume>0.0110001</volume>
+      </link>
 
-  <!--
-  <plugin name="ArduCopterPlugin" filename="libArduCopterPlugin.so">-->
-  <plugin name="ArduPilotPlugin" filename="libArduPilotPlugin.so">
-    <fdm_addr>127.0.0.1</fdm_addr>
-    <fdm_port_in>9002</fdm_port_in>
-    <fdm_port_out>9003</fdm_port_out>-->
+      <fluid_density>1000</fluid_density>
+       <link name="propeller">
+        <center_of_volume>0 0 0</center_of_volume>
+        <volume>1e-16</volume>
+      </link>
+    </plugin>
+
     <!--
-        Require by APM :
-        Only change model and gazebo from XYZ to XY-Z coordinates
-    -->
-    <!--
-    <modelXYZToAirplaneXForwardZDown>0 0 0 1 1 1</modelXYZToAirplaneXForwardZDown>
-    <gazeboXYZToNED>0 0 0 0.1 0.1 0.1</gazeboXYZToNED-->
-    <imuName>BlueRov2::base_link::imu_sensor</imuName>
-    <!--imuName>imu_link::imu_sensor</imuName-->
-    <connectionTimeoutMaxCount>5</connectionTimeoutMaxCount>
-  </plugin>
+    <plugin name="ArduCopterPlugin" filename="libArduCopterPlugin.so">-->
+    <plugin name="ArduPilotPlugin" filename="libArduPilotPlugin.so">
+      <fdm_addr>127.0.0.1</fdm_addr>
+      <fdm_port_in>9002</fdm_port_in>
+      <fdm_port_out>9003</fdm_port_out>
+      <!--
+          Require by APM :
+          Only change model and gazebo from XYZ to XY-Z coordinates
+      -->
+      <!--
+      <modelXYZToAirplaneXForwardZDown>0 0 0 1 1 1</modelXYZToAirplaneXForwardZDown>
+      <gazeboXYZToNED>0 0 0 0.1 0.1 0.1</gazeboXYZToNED-->
+      <imuName>BlueRov2::base_link::imu_sensor</imuName>
+      <!--imuName>imu_link::imu_sensor</imuName-->
+      <connectionTimeoutMaxCount>5</connectionTimeoutMaxCount>
 
+      <control channel="0">
+        <!--
+            incoming control command [0, 1]
+            so offset it by 0 to get [0, 1]
+            and divide max target by 1.
+            offset = 0
+            multiplier = 838 max rpm / 1 = 838
+          -->
+          <type>VELOCITY</type>
+          <offset>-0.5</offset>
+          <p_gain>0.20</p_gain>
+          <i_gain>0</i_gain>
+          <d_gain>0</d_gain>
+          <i_max>0</i_max>
+          <i_min>0</i_min>
+          <cmd_max>2.5</cmd_max>
+          <cmd_min>-2.5</cmd_min>
+          <jointName>BlueRov2::spinning_joint</jointName>
+          <multiplier>838</multiplier>
+          <controlVelocitySlowdownSim>1</controlVelocitySlowdownSim>
+        </control>
+
+    </plugin>
   </model>
 </sdf>

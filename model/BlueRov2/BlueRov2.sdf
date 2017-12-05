@@ -45,8 +45,8 @@
       </sensor>
     </link>
 
-    <link name='propeller'>
-      <pose>0 0 0.3455 0 0 0</pose>
+    <link name='propeller1'>
+      <pose>1 0 0 0 0 0</pose>
       <inertial>
         <mass>1e-14</mass>
         <inertia>
@@ -60,9 +60,39 @@
       </inertial>
     </link>
 
-      <joint name='spinning_joint' type='revolute'>
+      <joint name='spinning_joint1' type='revolute'>
       <parent>base_link</parent>
-      <child>propeller</child>
+      <child>propeller1</child>
+      <axis>
+        <xyz>0 0 1</xyz>
+        <use_parent_model_frame>1</use_parent_model_frame>
+        <limit>
+          <lower>-1e+12</lower>
+          <upper>1e+12</upper>
+          <effort>-1</effort>
+          <velocity>-1</velocity>
+        </limit>
+      </axis>
+    </joint>
+
+    <link name='propeller2'>
+      <pose>-1 0 0 0 0 0</pose>
+      <inertial>
+        <mass>1e-14</mass>
+        <inertia>
+          <ixx>0.17730244606378792</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>0.17730244606378792</iyy>
+          <iyz>0</iyz>
+          <izz>0.35043374583333337</izz>
+        </inertia>
+      </inertial>
+    </link>
+
+    <joint name='spinning_joint2' type='revolute'>
+      <parent>base_link</parent>
+      <child>propeller2</child>
       <axis>
         <xyz>0 0 1</xyz>
         <use_parent_model_frame>1</use_parent_model_frame>
@@ -86,7 +116,11 @@
       </link>
 
       <fluid_density>1000</fluid_density>
-       <link name="propeller">
+       <link name="propeller1">
+        <center_of_volume>0 0 0</center_of_volume>
+        <volume>1e-16</volume>
+      </link>
+       <link name="propeller2">
         <center_of_volume>0 0 0</center_of_volume>
         <volume>1e-16</volume>
       </link>
@@ -126,7 +160,29 @@
           <i_min>0</i_min>
           <cmd_max>2.5</cmd_max>
           <cmd_min>-2.5</cmd_min>
-          <jointName>BlueRov2::spinning_joint</jointName>
+          <jointName>BlueRov2::spinning_joint1</jointName>
+          <multiplier>838</multiplier>
+          <controlVelocitySlowdownSim>1</controlVelocitySlowdownSim>
+        </control>
+
+        <control channel="1">
+        <!--
+            incoming control command [0, 1]
+            so offset it by 0 to get [0, 1]
+            and divide max target by 1.
+            offset = 0
+            multiplier = 838 max rpm / 1 = 838
+          -->
+          <type>VELOCITY</type>
+          <offset>-0.5</offset>
+          <p_gain>0.20</p_gain>
+          <i_gain>0</i_gain>
+          <d_gain>0</d_gain>
+          <i_max>0</i_max>
+          <i_min>0</i_min>
+          <cmd_max>2.5</cmd_max>
+          <cmd_min>-2.5</cmd_min>
+          <jointName>BlueRov2::spinning_joint2</jointName>
           <multiplier>838</multiplier>
           <controlVelocitySlowdownSim>1</controlVelocitySlowdownSim>
         </control>

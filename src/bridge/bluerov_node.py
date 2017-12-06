@@ -5,6 +5,7 @@ from bridge import Bridge
 import json
 import rospy
 import sys
+import math
 
 from cv_bridge import CvBridge
 
@@ -15,6 +16,7 @@ from video import Video
 # msgs type
 from sensor_msgs.msg import BatteryState
 from sensor_msgs.msg import Image
+from sensor_msgs.msg import Imu
 from std_msgs.msg import String
 
 class BlueRov(Bridge):
@@ -46,6 +48,12 @@ class BlueRov(Bridge):
                 String,
                 1
             ],
+            [
+                self._create_imu_msg,
+                '/imu/data',
+                Imu,
+                1
+            ]
         ]
 
         for _, topic, msg, queue in self.topics:
@@ -57,6 +65,58 @@ class BlueRov(Bridge):
     def _create_header(self, msg):
         msg.header.stamp = rospy.Time.now()
         msg.header.frame_id = self.model_base_link
+
+    def _create_imu_msg(self):
+        #TODO: move all msgs creating to msg
+        msg = Imu()
+
+        self._create_header(msg)
+
+        #http://mavlink.org/messages/common#SCALED_IMU
+        imu_data = None
+        for i in ['', '2', '3']:
+            try:
+                imu_data = self.get_data()['SCALED_IMU{}'.format(i)]
+                break
+            except Exception as e:
+                pass
+
+        acc_data = [imu_data['{}acc'.format(i)]  for i in ['x', 'y', 'z']]
+        gyr_data = [imu_data['{}gyro'.format(i)] for i in ['x', 'y', 'z']]
+        mag_data = [imu_data['{}mag'.format(i)]  for i in ['x', 'y', 'z']]
+
+        #http://docs.ros.org/api/sensor_msgs/html/msg/Imu.html
+        msg.linear_acceleration.x = acc_data[0]/100
+        msg.linear_acceleration.y = acc_data[1]/100
+        msg.linear_acceleration.z = acc_data[2]/100
+        msg.linear_acceleration_covariance : [0, 0, 0, 0, 0, 0, 0, 0, 0]
+
+        msg.angular_velocity.x = gyr_data[0]/1000
+        msg.angular_velocity.y = gyr_data[1]/1000
+        msg.angular_velocity.z = gyr_data[2]/1000
+        msg.angular_velocity_covariance : [0, 0, 0, 0, 0, 0, 0, 0, 0]
+
+        #http://mavlink.org/messages/common#ATTITUDE
+        attitude_data = self.get_data()['ATTITUDE']
+        orientation = [attitude_data[i] for i in ['roll', 'pitch', 'yaw']]
+
+        #https://en.wikipedia.org/wiki/Conversion_between_quaternions_and_Euler_angles#Euler_Angles_to_Quaternion_Conversion
+        cy = math.cos(orientation[2] * 0.5)
+        sy = math.sin(orientation[2] * 0.5)
+        cr = math.cos(orientation[0] * 0.5)
+        sr = math.sin(orientation[0] * 0.5)
+        cp = math.cos(orientation[1] * 0.5)
+        sp = math.sin(orientation[1] * 0.5)
+
+        msg.orientation.w = cy * cr * cp + sy * sr * sp
+        msg.orientation.x = cy * sr * cp - sy * cr * sp
+        msg.orientation.y = cy * cr * sp + sy * sr * cp
+        msg.orientation.z = sy * cr * cp - cy * sr * sp
+
+        msg.orientation_covariance : [0, 0, 0, 0, 0, 0, 0, 0, 0]
+
+        self.pub.set_data('/imu/data', msg)
+
 
     def _create_battery_msg(self):
             '''

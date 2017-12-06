@@ -18,6 +18,7 @@ from sensor_msgs.msg import BatteryState
 from sensor_msgs.msg import Image
 from sensor_msgs.msg import Imu
 from std_msgs.msg import String
+from nav_msgs.msg import Odometry
 
 class BlueRov(Bridge):
     def __init__(self, device='udp:192.168.2.1:14550', baudrate=None):
@@ -53,7 +54,14 @@ class BlueRov(Bridge):
                 '/imu/data',
                 Imu,
                 1
-            ]
+            ],
+            [
+                self._create_odometry_msg,
+                '/odometry',
+                Odometry,
+                1
+            ],
+
         ]
 
         for _, topic, msg, queue in self.topics:
@@ -65,6 +73,46 @@ class BlueRov(Bridge):
     def _create_header(self, msg):
         msg.header.stamp = rospy.Time.now()
         msg.header.frame_id = self.model_base_link
+
+    def _create_odometry_msg(self):
+        #TODO: Create class to deal with BlueRov state
+        msg = Odometry()
+
+        self._create_header(msg)
+
+        #http://mavlink.org/messages/common#LOCAL_POSITION_NED
+        local_position_data = self.get_data()['LOCAL_POSITION_NED']
+        xyz_data = [local_position_data[i]  for i in ['x', 'y', 'z']]
+        vxyz_data = [local_position_data[i]  for i in ['vx', 'vy', 'z']]
+        msg.pose.pose.position.x = xyz_data[0]
+        msg.pose.pose.position.y = xyz_data[1]
+        msg.pose.pose.position.z = xyz_data[2]
+        msg.twist.twist.linear.x = vxyz_data[0]/100
+        msg.twist.twist.linear.y = vxyz_data[1]/100
+        msg.twist.twist.linear.z = vxyz_data[2]/100
+
+        #http://mavlink.org/messages/common#ATTITUDE
+        attitude_data = self.get_data()['ATTITUDE']
+        orientation = [attitude_data[i] for i in ['roll', 'pitch', 'yaw']]
+        orientation_speed = [attitude_data[i] for i in ['rollspeed', 'pitchspeed', 'yawspeed']]
+
+        #https://en.wikipedia.org/wiki/Conversion_between_quaternions_and_Euler_angles#Euler_Angles_to_Quaternion_Conversion
+        cy = math.cos(orientation[2] * 0.5)
+        sy = math.sin(orientation[2] * 0.5)
+        cr = math.cos(orientation[0] * 0.5)
+        sr = math.sin(orientation[0] * 0.5)
+        cp = math.cos(orientation[1] * 0.5)
+        sp = math.sin(orientation[1] * 0.5)
+
+        msg.pose.pose.orientation.w = cy * cr * cp + sy * sr * sp
+        msg.pose.pose.orientation.x = cy * sr * cp - sy * cr * sp
+        msg.pose.pose.orientation.y = cy * cr * sp + sy * sr * cp
+        msg.pose.pose.orientation.z = sy * cr * cp - cy * sr * sp
+        msg.twist.twist.angular.x = orientation_speed[0]
+        msg.twist.twist.angular.y = orientation_speed[1]
+        msg.twist.twist.angular.z = orientation_speed[2]
+
+        self.pub.set_data('/odometry', msg)
 
     def _create_imu_msg(self):
         #TODO: move all msgs creating to msg

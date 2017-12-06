@@ -30,7 +30,7 @@ class BlueRov(Bridge):
         self.video = Video()
         self.video_bridge = CvBridge()
 
-        self.topics = [
+        self.pub_topics = [
             [
                 self._create_camera_msg,
                 '/battery',
@@ -227,7 +227,7 @@ class BlueRov(Bridge):
 
     def publish(self):
         self.update()
-        for sender, _, _, _ in self.topics:
+        for sender, _, _, _ in self.pub_topics:
             try:
                 sender()
             except Exception as e:

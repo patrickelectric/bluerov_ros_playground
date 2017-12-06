@@ -29,23 +29,26 @@ class BlueRov(Bridge):
 
         self.topics = [
             [
+                self._create_camera_msg,
                 '/battery',
                 BatteryState,
                 1
             ],
             [
+                self._create_battery_msg,
                 '/camera',
                 Image,
                 1
             ],
             [
+                self._create_ROV_state,
                 '/state',
                 String,
                 1
             ],
         ]
 
-        for topic, msg, queue in self.topics:
+        for _, topic, msg, queue in self.topics:
             self._subscribe_topic(topic, msg, queue)
 
     def _subscribe_topic(self, topic, msg, queue_size=1):
@@ -135,13 +138,11 @@ class BlueRov(Bridge):
 
     def publish(self):
         self.update()
-        #self.print()
-        try:
-            self._create_camera_msg()
-            self._create_battery_msg()
-            self._create_ROV_state()
-        except Exception as e:
-            print(e)
+        for sender, _, _, _ in self.topics:
+            try:
+                sender()
+            except Exception as e:
+                print(e)
 
 if __name__ == '__main__':
     try:

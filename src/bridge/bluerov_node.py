@@ -131,9 +131,9 @@ class BlueRov(Bridge):
         }
 
         string = String()
-        print(string)
+        string.data = str(json.dumps(state, ensure_ascii=False))
 
-        self.pub.set_data('/state', str(json.dumps(state, ensure_ascii=False)))
+        self.pub.set_data('/state', string)
 
 
     def publish(self):

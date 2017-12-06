@@ -152,34 +152,8 @@ if __name__ == '__main__':
         exit(1)
 
     #bridge = Bridge()
-    #bluerov = BlueRov(device='udp:localhost:14550')
-    bluerov = BlueRov()
+    bluerov = BlueRov(device='udp:localhost:14550')
+
+    #bluerov = BlueRov()
     while not rospy.is_shutdown():
         bluerov.publish()
-
-
-
-
-'''
-from pymavlink import mavutil
-
-# create a mavlink serial instance
-master = mavutil.mavlink_connection('udp:192.168.2.1:14550')
-#master = mavutil.mavlink_connection('/dev/ttyACM0', baud=115200)
-
-#wait_heartbeat(master)
-
-#print("Sending all message types")
-
-master.recv_match(type='HEARTBEAT', blocking=True)
-print("Heartbeat from APM (system %u component %u)" % (master.target_system, master.target_system))
-
-#msg = master.recv_match(type='RC_CHANNELS_RAW', blocking=True)
-#print(msg)
-master.set_mode_manual()
-while True:
-    m = master.recv_match()
-    if m is not None:
-        print(m)
-        print(m.get_type())
-'''

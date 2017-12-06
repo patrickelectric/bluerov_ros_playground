@@ -179,7 +179,6 @@ class BlueRov(Bridge):
     def _create_camera_msg(self):
         if not self.video.frame_available():
             return
-        print('new frame')
         frame = self.video.frame()
         image_msg = Image()
         self._create_header(image_msg)

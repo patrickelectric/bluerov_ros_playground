@@ -49,16 +49,20 @@ class Subs(object):
         if value is not {}:
             current_level.update(yaml.load(str(value)))
 
-    def subscribe_topic(self, topic, msg_type, queue_size=1):
+    def subscribe_topic(self, topic, msg_type, queue_size=1, callback=None):
         """ Subscribe in ROS topic
 
         Args:
             topic (string): ROS topic
             msg_type (struct): ROS msg type
             queue_size (int, optional): ROS buffer size
+            callback (method): Will be executed when receive message
+
         """
         self.set_data(topic)
-        rospy.Subscriber(topic, msg_type, self.callback, callback_args=topic, queue_size=queue_size)
+        if callback == None:
+            callback = self.callback
+        rospy.Subscriber(topic, msg_type, callback, callback_args=topic, queue_size=queue_size)
 
     def subscribe_topics(self):
         """ Subscribe to class topics

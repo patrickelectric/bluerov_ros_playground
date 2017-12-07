@@ -74,6 +74,38 @@ class Bridge():
             param[6], param[7], param[8],                   # accel x,y,z
             param[9], param[10])                            # yaw, yaw rate
 
+    def set_attitude_target(self, param=[]):
+        if len(param) != 8:
+            print('SET_ATTITUDE_TARGET need 8 params')
+        mask = 0
+        for i, value in enumerate(param[4:-1]):
+            if value is not None:
+                mask += 1<<i
+            else:
+                param[i+3] = 0.0
+
+        if param[7] is not None:
+            mask += 1<<6
+        else:
+            param[7] = 0.0
+
+        q = param[:4];
+
+        if q != [None, None, None, None]:
+            mask += 1<<7
+        else:
+            q = [1.0, 0.0, 0.0, 0.0]
+
+        self.conn.mav.set_attitude_target_send(0,   # system time in milliseconds
+            self.conn.target_system,                # target system
+            self.conn.target_component,             # target component
+            mask,                                   # mask
+            q,                                      # quaternion attitude
+            param[4],                               # body roll rate
+            param[5],                               # body pitch rate
+            param[6],                               # body yaw rate
+            param[7])                               # thrust
+
 if __name__ == '__main__':
     bridge = Bridge()
     #bridge = Bridge(device='udp:localhost:14550')

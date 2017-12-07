@@ -50,6 +50,30 @@ class Bridge():
             params[7]
         )
 
+    def set_position_target_local_ned(self, param=[]):
+        print(param)
+        if len(param) != 11:
+            print('SET_POISITION_TARGET_GLOBAL_INT need 11 params')
+        mask = 0
+        print(mask, param)
+        for i, value in enumerate(param):
+            if value is not None:
+                mask += 1<<i
+            else:
+                param[i] = 0.0
+        print(mask, param)
+
+        #http://mavlink.org/messages/common#SET_POSITION_TARGET_GLOBAL_INT
+        self.conn.mav.set_position_target_local_ned_send(0, # system time in milliseconds
+            self.conn.target_system,                        # target system
+            0,                                              # target component
+            mavutil.mavlink.MAV_FRAME_BODY_NED,             # frame
+            mask,                                           # mask
+            param[0], param[1], param[2],                   # position x,y,z
+            param[3], param[4], param[5],                   # velocity x,y,z
+            param[6], param[7], param[8],                   # accel x,y,z
+            param[9], param[10])                            # yaw, yaw rate
+
 if __name__ == '__main__':
     bridge = Bridge()
     #bridge = Bridge(device='udp:localhost:14550')

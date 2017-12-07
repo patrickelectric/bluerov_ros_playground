@@ -11,6 +11,7 @@ from cv_bridge import CvBridge
 
 sys.path.append("../bluerov")
 from pubs import Pubs
+from subs import Subs
 from video import Video
 
 # msgs type
@@ -19,11 +20,13 @@ from sensor_msgs.msg import Image
 from sensor_msgs.msg import Imu
 from std_msgs.msg import String
 from nav_msgs.msg import Odometry
+from geometry_msgs.msg import TwistStamped
 
 class BlueRov(Bridge):
     def __init__(self, device='udp:192.168.2.1:14550', baudrate=None):
         super().__init__(device, baudrate)
         self.pub = Pubs()
+        self.sub = Subs()
         self.ROV_name = 'BlueRov2'
         self.model_base_link = '/base_link'
 
@@ -64,11 +67,60 @@ class BlueRov(Bridge):
 
         ]
 
-        for _, topic, msg, queue in self.topics:
-            self._subscribe_topic(topic, msg, queue)
+        self.sub_topics= [
+            [
+                self._setpoint_velocity_cmd_vel_callback,
+                '/setpoint_velocity/cmd_vel',
+                TwistStamped,
+                1
+            ]
+        ]
 
-    def _subscribe_topic(self, topic, msg, queue_size=1):
+        for _, topic, msg, queue in self.pub_topics:
+            self._pub_subscribe_topic(topic, msg, queue)
+
+        for callback, topic, msg, queue in self.sub_topics:
+            self._sub_subscribe_topic(topic, msg, queue, callback)
+
+    @staticmethod
+    def _callback_from_topic(topic):
+        return topic.replace('/', '_') + '_callback'
+
+    def _pub_subscribe_topic(self, topic, msg, queue_size=1):
         self.pub.subscribe_topic(self.ROV_name + topic, msg, queue_size)
+
+    def _sub_subscribe_topic(self, topic, msg, queue_size=1, callback=None):
+        self.sub.subscribe_topic(self.ROV_name + topic, msg, queue_size, callback)
+
+    def _setpoint_velocity_cmd_vel_callback(self, msg, _):
+        #http://mavlink.org/messages/common#SET_POSITION_TARGET_GLOBAL_INT
+        params = [
+            None,
+            None,
+            None,
+            msg.twist.linear.x,
+            msg.twist.linear.y,
+            msg.twist.linear.z,
+            None,
+            None,
+            None,
+            None,
+            None,
+            ]
+        self.set_position_target_local_ned(params)
+
+        #http://mavlink.org/messages/common#SET_ATTITUDE_TARGET
+        params = [
+            None,
+            None,
+            None,
+            None,
+            msg.twist.angular.x,
+            msg.twist.angular.y,
+            msg.twist.angular.z,
+            None,
+            ]
+        self.set_attitude_target(params)
 
     def _create_header(self, msg):
         msg.header.stamp = rospy.Time.now()

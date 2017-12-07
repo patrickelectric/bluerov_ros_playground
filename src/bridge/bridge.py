@@ -30,6 +30,11 @@ class Bridge():
     def print(self):
         print(self.data)
 
+    def set_guided_mode(self):
+        #https://github.com/ArduPilot/pymavlink/pull/128
+        params = [mavlink.MAV_MODE_GUIDED, 0, 0, 0, 0, 0, 0]
+        self.send_command_long(mavlink.MAV_CMD_DO_SET_MODE, params)
+
 if __name__ == '__main__':
     bridge = Bridge()
     #bridge = Bridge(device='udp:localhost:14550')

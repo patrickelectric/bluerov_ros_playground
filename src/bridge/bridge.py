@@ -35,6 +35,21 @@ class Bridge():
         params = [mavlink.MAV_MODE_GUIDED, 0, 0, 0, 0, 0, 0]
         self.send_command_long(mavlink.MAV_CMD_DO_SET_MODE, params)
 
+    def send_command_long(self, command, params=[0, 0, 0, 0, 0, 0, 0], confirmation=0):
+        self.conn.mav.command_long_send(self.conn.target_system, self.conn.target_component,
+            #command, confirmation
+            command, confirmation,
+            #params
+            params[0],
+            params[1],
+            params[2],
+            params[3],
+            params[4],
+            params[5],
+            params[6],
+            params[7]
+        )
+
 if __name__ == '__main__':
     bridge = Bridge()
     #bridge = Bridge(device='udp:localhost:14550')

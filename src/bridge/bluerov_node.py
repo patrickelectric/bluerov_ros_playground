@@ -181,6 +181,9 @@ class BlueRov(Bridge):
             except Exception as e:
                 pass
 
+        if imu_data is None:
+            return
+
         acc_data = [imu_data['{}acc'.format(i)]  for i in ['x', 'y', 'z']]
         gyr_data = [imu_data['{}gyro'.format(i)] for i in ['x', 'y', 'z']]
         mag_data = [imu_data['{}mag'.format(i)]  for i in ['x', 'y', 'z']]

@@ -115,14 +115,12 @@ class Bridge():
 
     def set_servo_pwm(self, id, pwm=1500):
         #http://mavlink.org/messages/common#MAV_CMD_DO_SET_SERVO
-        self.conn.mav.command_long_send(
-            self.conn.target_system,                # target_system
-            self.conn.target_component,             # target_component
-            mavutil.mavlink.MAV_CMD_DO_SET_SERVO,   # command
-            0,                                      # confirmation
-            id,                                     # servo id
-            pwm,                                    # pwm 1000-2000
-            0, 0, 0, 0, 0)                          # empty
+        # servo id
+        # pwm 1000-2000
+        self.send_command_long(
+            mavutil.mavlink.MAV_CMD_DO_SET_SERVO,
+            [id, pwm, 0, 0, 0, 0, 0]
+        )
 
     def set_rc_channel_pwm(self, id, pwm=1100):
         rc_channel_values = [65535 for _ in range(8)]
@@ -137,13 +135,13 @@ class Bridge():
         if arm_throttle:
             self.conn.arducopter_arm()
         else:
-            self.conn.mav.command_long_send(
-                self.conn.target_system,                        # target_system
-                self.conn.target_component,                     # target_component
-                mavutil.mavlink.MAV_CMD_COMPONENT_ARM_DISARM,   # command
-                0,                                              # confirmation
-                0,                                              # param1 (0 to indicate disarm)
-                0, 0, 0, 0, 0, 0)                               # Reserved (all remaining params)
+            #http://mavlink.org/messages/common#MAV_CMD_COMPONENT_ARM_DISARM
+            # param1 (0 to indicate disarm)
+            # Reserved (all remaining params)
+            self.send_command_long(
+                mavutil.mavlink.MAV_CMD_COMPONENT_ARM_DISARM,
+                [0, 0, 0, 0, 0, 0, 0]
+            )
 
 if __name__ == '__main__':
     bridge = Bridge()

@@ -95,7 +95,7 @@ class Bridge():
         else:
             param[7] = 0.0
 
-        q = param[:4];
+        q = param[:4]
 
         if q != [None, None, None, None]:
             mask += 1<<7

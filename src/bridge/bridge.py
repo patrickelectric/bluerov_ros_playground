@@ -117,6 +117,15 @@ class Bridge():
             pwm,                                    # pwm 1000-2000
             0, 0, 0, 0, 0)                          # empty
 
+    def set_rc_channel_pwm(self, id, pwm=1100):
+        rc_channel_values = [65535 for _ in range(8)]
+        rc_channel_values[id] = pwm
+        #http://mavlink.org/messages/common#RC_CHANNELS_OVERRIDE
+        self.conn.mav.rc_channels_override_send(
+            self.conn.target_system,
+            self.conn.target_component,             # target_system
+            *rc_channel_values)                     # RC channel list, in microseconds.
+
 if __name__ == '__main__':
     bridge = Bridge()
     #bridge = Bridge(device='udp:localhost:14550')

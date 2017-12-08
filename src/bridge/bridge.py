@@ -132,6 +132,18 @@ class Bridge():
             self.conn.target_component,             # target_component
             *rc_channel_values)                     # RC channel list, in microseconds.
 
+    def arm_throttle(self, arm_throttle):
+        if arm_throttle:
+            self.conn.arducopter_arm()
+        else:
+            self.conn.mav.command_long_send(
+                self.conn.target_system,                        # target_system
+                self.conn.target_component,                     # target_component
+                mavutil.mavlink.MAV_CMD_COMPONENT_ARM_DISARM,   # command
+                0,                                              # confirmation
+                0,                                              # param1 (0 to indicate disarm)
+                0, 0, 0, 0, 0, 0)                               # Reserved (all remaining params)
+
 if __name__ == '__main__':
     bridge = Bridge()
     #bridge = Bridge(device='udp:localhost:14550')

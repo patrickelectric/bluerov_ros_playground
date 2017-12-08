@@ -68,7 +68,6 @@ class BlueRov(Bridge):
                 Odometry,
                 1
             ],
-
         ]
 
         self.sub_topics= [
@@ -290,7 +289,6 @@ class BlueRov(Bridge):
 
         self.pub.set_data('/imu/data', msg)
 
-
     def _create_battery_msg(self):
             bat = BatteryState()
             self._create_header(bat)
@@ -316,7 +314,6 @@ class BlueRov(Bridge):
         self._create_header(msg)
         msg.step = int(msg.step)
         self.pub.set_data('/camera', msg)
-
 
     def _create_ROV_state(self):
         servo_output_raw_msg = self.get_data()['SERVO_OUTPUT_RAW']
@@ -348,7 +345,6 @@ class BlueRov(Bridge):
         string.data = str(json.dumps(state, ensure_ascii=False))
 
         self.pub.set_data('/state', string)
-
 
     def publish(self):
         self.update()

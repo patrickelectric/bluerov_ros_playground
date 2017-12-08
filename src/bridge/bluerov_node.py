@@ -3,6 +3,7 @@
 from pymavlink import mavutil
 from bridge import Bridge
 import json
+import re
 import rospy
 import sys
 import math
@@ -20,6 +21,7 @@ from sensor_msgs.msg import Image
 from sensor_msgs.msg import Imu
 from std_msgs.msg import String
 from nav_msgs.msg import Odometry
+from std_msgs.msg import UInt16
 from geometry_msgs.msg import TwistStamped
 
 class BlueRov(Bridge):
@@ -73,14 +75,35 @@ class BlueRov(Bridge):
                 '/setpoint_velocity/cmd_vel',
                 TwistStamped,
                 1
-            ]
+            ],
+            [
+                self._set_servo_callback,
+                '/servo{}/set_pwm',
+                UInt16,
+                1,
+                [1, 2, 3, 4, 5, 6, 7, 8]
+            ],
+            [
+                self._set_rc_channel_callback,
+                '/rc_channel{}/set_pwm',
+                UInt16,
+                1,
+                [1, 2, 3, 4, 5, 6, 7, 8]
+            ],
+
         ]
 
         for _, topic, msg, queue in self.pub_topics:
             self._pub_subscribe_topic(topic, msg, queue)
 
-        for callback, topic, msg, queue in self.sub_topics:
-            self._sub_subscribe_topic(topic, msg, queue, callback)
+        for topic in self.sub_topics:
+            if len(topic) <= 4:
+                callback, topic_name, msg, queue = topic
+                self._sub_subscribe_topic(topic_name, msg, queue, callback)
+            else:
+                callback, topic_name, msg, queue, arg = topic
+                for name in arg:
+                    self._sub_subscribe_topic(topic_name.format(name), msg, queue, callback)
 
     @staticmethod
     def _callback_from_topic(topic):
@@ -91,6 +114,34 @@ class BlueRov(Bridge):
 
     def _sub_subscribe_topic(self, topic, msg, queue_size=1, callback=None):
         self.sub.subscribe_topic(self.ROV_name + topic, msg, queue_size, callback)
+
+    def _set_servo_callback(self, msg, topic):
+        paths = topic.split('/')
+        servo_id = None
+        for path in paths:
+            if 'servo' in path:
+                servo_id = int(re.search('[0-9]', path).group(0)) - 1
+                # Found valid id !
+                break
+        else:
+            # No valid id
+            return
+
+        self.set_servo_pwm(servo_id, msg.data)
+
+    def _set_rc_channel_callback(self, msg, topic):
+        paths = topic.split('/')
+        channel_id = None
+        for path in paths:
+            if 'rc_channel' in path:
+                channel_id = int(re.search('[0-9]', path).group(0))  - 1
+                # Found valid id !
+                break
+        else:
+            # No valid id
+            return
+
+        self.set_rc_channel_pwm(channel_id, msg.data)
 
     def _setpoint_velocity_cmd_vel_callback(self, msg, _):
         #http://mavlink.org/messages/common#SET_POSITION_TARGET_GLOBAL_INT

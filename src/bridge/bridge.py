@@ -71,7 +71,8 @@ class Bridge():
                 param[i] = 0.0
 
         #http://mavlink.org/messages/common#SET_POSITION_TARGET_GLOBAL_INT
-        self.conn.mav.set_position_target_local_ned_send(0, # system time in milliseconds
+        self.conn.mav.set_position_target_local_ned_send(
+            0,                                              # system time in milliseconds
             self.conn.target_system,                        # target system
             0,                                              # target component
             mavutil.mavlink.MAV_FRAME_BODY_NED,             # frame

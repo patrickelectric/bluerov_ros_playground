@@ -1,29 +1,30 @@
 #!/usr/bin/env python
 
-from pymavlink import mavutil
-from bridge import Bridge
 import json
+import math
 import re
 import rospy
 import sys
-import math
 
-from cv_bridge import CvBridge
+from bridge import Bridge
 
 sys.path.append("../bluerov")
 from pubs import Pubs
 from subs import Subs
 from video import Video
 
+# convert opencv image to ros image msg
+from cv_bridge import CvBridge
+
 # msgs type
+from geometry_msgs.msg import TwistStamped
+from nav_msgs.msg import Odometry
 from sensor_msgs.msg import BatteryState
 from sensor_msgs.msg import Image
 from sensor_msgs.msg import Imu
 from std_msgs.msg import Bool
 from std_msgs.msg import String
-from nav_msgs.msg import Odometry
 from std_msgs.msg import UInt16
-from geometry_msgs.msg import TwistStamped
 
 class BlueRov(Bridge):
     def __init__(self, device='udp:192.168.2.1:14550', baudrate=None):

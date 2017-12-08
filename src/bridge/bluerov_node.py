@@ -90,7 +90,12 @@ class BlueRov(Bridge):
                 1,
                 [1, 2, 3, 4, 5, 6, 7, 8]
             ],
-
+            [
+                self._set_mode_callback,
+                '/mode/set',
+                String,
+                1
+            ],
         ]
 
         for _, topic, msg, queue in self.pub_topics:
@@ -142,6 +147,9 @@ class BlueRov(Bridge):
             return
 
         self.set_rc_channel_pwm(channel_id, msg.data)
+
+    def _set_mode_callback(self, msg, _):
+        self.set_mode(msg.data)
 
     def _setpoint_velocity_cmd_vel_callback(self, msg, _):
         #http://mavlink.org/messages/common#SET_POSITION_TARGET_GLOBAL_INT

@@ -41,8 +41,8 @@ class Bridge():
 
     def set_guided_mode(self):
         #https://github.com/ArduPilot/pymavlink/pull/128
-        params = [mavlink.MAV_MODE_GUIDED, 0, 0, 0, 0, 0, 0]
-        self.send_command_long(mavlink.MAV_CMD_DO_SET_MODE, params)
+        params = [mavutil.mavlink.MAV_MODE_GUIDED, 0, 0, 0, 0, 0, 0]
+        self.send_command_long(mavutil.mavlink.MAV_CMD_DO_SET_MODE, params)
 
     def send_command_long(self, command, params=[0, 0, 0, 0, 0, 0, 0], confirmation=0):
         self.conn.mav.command_long_send(self.conn.target_system, self.conn.target_component,

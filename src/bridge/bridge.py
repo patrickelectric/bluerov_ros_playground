@@ -36,7 +36,6 @@ class Bridge():
             print('Unknown mode : {}'.format(mode))
             print('Try:', list(self.conn.mode_mapping().keys()))
             return
-        print(mode)
         mode_id = self.conn.mode_mapping()[mode]
         self.conn.set_mode(mode_id)
 
@@ -61,17 +60,14 @@ class Bridge():
         )
 
     def set_position_target_local_ned(self, param=[]):
-        print(param)
         if len(param) != 11:
             print('SET_POISITION_TARGET_GLOBAL_INT need 11 params')
         mask = 0
-        print(mask, param)
         for i, value in enumerate(param):
             if value is not None:
                 mask += 1<<i
             else:
                 param[i] = 0.0
-        print(mask, param)
 
         #http://mavlink.org/messages/common#SET_POSITION_TARGET_GLOBAL_INT
         self.conn.mav.set_position_target_local_ned_send(0, # system time in milliseconds

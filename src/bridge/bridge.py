@@ -30,6 +30,16 @@ class Bridge():
     def print(self):
         print(self.data)
 
+    def set_mode(self, mode):
+        mode = mode.upper()
+        if mode not in self.conn.mode_mapping():
+            print('Unknown mode : {}'.format(mode))
+            print('Try:', list(self.conn.mode_mapping().keys()))
+            return
+        print(mode)
+        mode_id = self.conn.mode_mapping()[mode]
+        self.conn.set_mode(mode_id)
+
     def set_guided_mode(self):
         #https://github.com/ArduPilot/pymavlink/pull/128
         params = [mavlink.MAV_MODE_GUIDED, 0, 0, 0, 0, 0, 0]

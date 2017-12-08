@@ -45,11 +45,12 @@ class Bridge():
         self.send_command_long(mavutil.mavlink.MAV_CMD_DO_SET_MODE, params)
 
     def send_command_long(self, command, params=[0, 0, 0, 0, 0, 0, 0], confirmation=0):
-        self.conn.mav.command_long_send(self.conn.target_system, self.conn.target_component,
-            #command, confirmation
-            command, confirmation,
-            #params
-            params[0],
+        self.conn.mav.command_long_send(
+            self.conn.target_system,                # target system
+            self.conn.target_component,             # target component
+            command,                                # mavlink command
+            confirmation,                           # confirmation
+            params[0],                              # params
             params[1],
             params[2],
             params[3],

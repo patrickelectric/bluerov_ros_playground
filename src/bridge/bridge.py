@@ -56,8 +56,7 @@ class Bridge():
             params[3],
             params[4],
             params[5],
-            params[6],
-            params[7]
+            params[6]
         )
 
     def set_position_target_local_ned(self, param=[]):

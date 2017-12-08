@@ -106,6 +106,17 @@ class Bridge():
             param[6],                               # body yaw rate
             param[7])                               # thrust
 
+    def set_servo_pwm(self, id, pwm=1500):
+        #http://mavlink.org/messages/common#MAV_CMD_DO_SET_SERVO
+        self.conn.mav.command_long_send(
+            self.conn.target_system,                # target_system
+            self.conn.target_component,             # target_component
+            mavutil.mavlink.MAV_CMD_DO_SET_SERVO,   # command
+            0,                                      # confirmation
+            id,                                     # servo id
+            pwm,                                    # pwm 1000-2000
+            0, 0, 0, 0, 0)                          # empty
+
 if __name__ == '__main__':
     bridge = Bridge()
     #bridge = Bridge(device='udp:localhost:14550')

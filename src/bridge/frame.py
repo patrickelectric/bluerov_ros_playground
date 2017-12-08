@@ -19,6 +19,7 @@ from video import Video
 from sensor_msgs.msg import BatteryState
 from sensor_msgs.msg import Image
 from sensor_msgs.msg import Imu
+from std_msgs.msg import Bool
 from std_msgs.msg import String
 from nav_msgs.msg import Odometry
 from std_msgs.msg import UInt16
@@ -96,6 +97,12 @@ class BlueRov(Bridge):
                 String,
                 1
             ],
+            [
+                self._arm_callback,
+                '/arm',
+                Bool,
+                1
+            ],
         ]
 
         for _, topic, msg, queue in self.pub_topics:
@@ -150,6 +157,9 @@ class BlueRov(Bridge):
 
     def _set_mode_callback(self, msg, _):
         self.set_mode(msg.data)
+
+    def _arm_callback(self, msg, _):
+        self.arm_throttle(msg.data)
 
     def _setpoint_velocity_cmd_vel_callback(self, msg, _):
         #http://mavlink.org/messages/common#SET_POSITION_TARGET_GLOBAL_INT

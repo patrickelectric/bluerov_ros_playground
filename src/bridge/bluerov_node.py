@@ -196,6 +196,19 @@ class BlueRov(Bridge):
         msg.header.frame_id = self.model_base_link
 
     def _create_odometry_msg(self):
+        # Check if data is available
+        fail = False
+        if 'LOCAL_POSITION_NED' not in self.get_data():
+            print('no LOCAL_POSITION_NED data')
+            fail = True
+
+        if 'ATTITUDE' not in self.get_data():
+            print('no ATTITUDE data')
+            fail = True
+
+        if fail:
+            return
+
         #TODO: Create class to deal with BlueRov state
         msg = Odometry()
 
@@ -236,6 +249,11 @@ class BlueRov(Bridge):
         self.pub.set_data('/odometry', msg)
 
     def _create_imu_msg(self):
+        # Check if data is available
+        if 'ATTITUDE' not in self.get_data():
+            print('no ATTITUDE data')
+            return
+
         #TODO: move all msgs creating to msg
         msg = Imu()
 
@@ -290,14 +308,28 @@ class BlueRov(Bridge):
         self.pub.set_data('/imu/data', msg)
 
     def _create_battery_msg(self):
-            bat = BatteryState()
-            self._create_header(bat)
+        # Check if data is available
+        fail = False
 
-            #http://docs.ros.org/jade/api/sensor_msgs/html/msg/BatteryState.html
-            bat.voltage = self.get_data()['SYS_STATUS']['voltage_battery']/1000
-            bat.current = self.get_data()['SYS_STATUS']['current_battery']/100
-            bat.percentage = self.get_data()['BATTERY_STATUS']['battery_remaining']/100
-            self.pub.set_data('/battery', bat)
+        if 'SYS_STATUS' not in self.get_data():
+            print('no SYS_STATUS data')
+            fail = True
+
+        if 'BATTERY_STATUS' not in self.get_data():
+            print('no BATTERY_STATUS data')
+            fail = True
+
+        if fail:
+            return
+
+        bat = BatteryState()
+        self._create_header(bat)
+
+        #http://docs.ros.org/jade/api/sensor_msgs/html/msg/BatteryState.html
+        bat.voltage = self.get_data()['SYS_STATUS']['voltage_battery']/1000
+        bat.current = self.get_data()['SYS_STATUS']['current_battery']/100
+        bat.percentage = self.get_data()['BATTERY_STATUS']['battery_remaining']/100
+        self.pub.set_data('/battery', bat)
 
     def _create_camera_msg(self):
         if not self.video.frame_available():
@@ -316,6 +348,11 @@ class BlueRov(Bridge):
         self.pub.set_data('/camera', msg)
 
     def _create_ROV_state(self):
+        # Check if data is available
+        if 'SERVO_OUTPUT_RAW' not in self.get_data():
+            print('no SERVO_OUTPUT_RAW data')
+            return
+
         servo_output_raw_msg = self.get_data()['SERVO_OUTPUT_RAW']
         servo_output_raw = [servo_output_raw_msg['servo{}_raw'.format(i+1)] for i in range(8)]
         motor_throttle = [servo_output_raw[i] - 1500 for i in range(6)]

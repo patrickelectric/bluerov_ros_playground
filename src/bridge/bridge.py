@@ -62,10 +62,10 @@ class Bridge():
     def set_position_target_local_ned(self, param=[]):
         if len(param) != 11:
             print('SET_POISITION_TARGET_GLOBAL_INT need 11 params')
-        mask = 0
+        mask = 0b0000000111111111
         for i, value in enumerate(param):
             if value is not None:
-                mask += 1<<i
+                mask -= 1<<i
             else:
                 param[i] = 0.0
 
@@ -73,8 +73,8 @@ class Bridge():
         self.conn.mav.set_position_target_local_ned_send(
             0,                                              # system time in milliseconds
             self.conn.target_system,                        # target system
-            0,                                              # target component
-            mavutil.mavlink.MAV_FRAME_BODY_NED,             # frame
+            self.conn.target_component,                     # target component
+            mavutil.mavlink.MAV_FRAME_LOCAL_NED,            # frame
             mask,                                           # mask
             param[0], param[1], param[2],                   # position x,y,z
             param[3], param[4], param[5],                   # velocity x,y,z

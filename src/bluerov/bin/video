@@ -5,12 +5,14 @@ import cv2
 import rospy
 
 def main():
-    udp_port = 5600
     try:
-        udp_port = rospy.get_param("/bluerov_video/udp_port")
-        rospy.loginfo("udp_port: {}".format(udp_port))
-    except Exception as error:
-        rospy.loginfo(error)
+        rospy.init_node('user_node', log_level=rospy.DEBUG)
+    except rospy.ROSInterruptException as error:
+        print('pubs error with ROS: ', error)
+        exit(1)
+
+    udp_port = rospy.get_param("/bluerov_video/udp_port", 5600)
+    rospy.loginfo("udp_port: {}".format(udp_port))
 
     video = Video.Video(udp_port)
 

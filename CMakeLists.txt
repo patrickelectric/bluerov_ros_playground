@@ -201,7 +201,7 @@ catkin_install_python(PROGRAMS
   src/bluerov/sitl.py
   src/bridge/bridge.py
   src/bridge/bluerov_node.py
-  src/bridge/node.py
+  src/bridge/node
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 

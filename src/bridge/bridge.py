@@ -117,10 +117,7 @@ class Bridge():
         #http://mavlink.org/messages/common#MAV_CMD_DO_SET_SERVO
         # servo id
         # pwm 1000-2000
-        self.send_command_long(
-            mavutil.mavlink.MAV_CMD_DO_SET_SERVO,
-            [id, pwm, 0, 0, 0, 0, 0]
-        )
+        mavutil.mavfile.set_servo(self.conn, id, pwm)
 
     def set_rc_channel_pwm(self, id, pwm=1100):
         rc_channel_values = [65535 for _ in range(8)]

@@ -140,7 +140,7 @@ class BlueRov(Bridge):
         servo_id = None
         for path in paths:
             if 'servo' in path:
-                servo_id = int(re.search('[0-9]', path).group(0)) - 1
+                servo_id = int(re.search('[0-9]', path).group(0)) + 1
                 # Found valid id !
                 break
         else:

@@ -5,7 +5,7 @@ import bluerov_node as BR
 import rospy
 
 parser = argparse.ArgumentParser()
-parser.add_argument("--device", "-a", help="Set the mavlink device: 'udp:192.168.2.2:14550', '/dev/ttyACM0'", type=str, default='udp:localhost:14550')
+parser.add_argument("--device", "-a", help="Set the mavlink device: 'udp:192.168.2.2:14550', '/dev/ttyACM0'", type=str, default='udp:localhost:14551')
 args = parser.parse_args()
 if args.device:
     print("Set input adress to %s" % args.device)

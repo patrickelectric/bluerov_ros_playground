@@ -1,9 +1,10 @@
 <?xml version="1.0"?>
-
 <launch>
     <arg name="log_output" default="screen"/>
+    <arg name="bluerov_node_device" default="udp:192.168.2.1:14550"/>
 
     <!-- start bluerov2 node -->
     <node respawn="true" pkg="bluerov_ros_playground" type="node" name="node" output="$(arg log_output)">
+        <param name="device" value="$(arg bluerov_node_device)"/>
     </node>
 </launch>

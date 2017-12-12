@@ -398,9 +398,7 @@ if __name__ == '__main__':
         print('pubs error with ROS: ', error)
         exit(1)
 
-    #bridge = Bridge()
     bluerov = BlueRov(device='udp:localhost:14550')
 
-    #bluerov = BlueRov()
     while not rospy.is_shutdown():
         bluerov.publish()

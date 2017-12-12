@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 import argparse
 import bluerov_node as BR
 import rospy

@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+
+<launch>
+    <arg name="log_output" default="screen"/>
+
+    <!-- start bluerov2 node -->
+    <node respawn="true" pkg="bluerov_ros_playground" type="node" name="node" output="$(arg log_output)">
+    </node>
+</launch>

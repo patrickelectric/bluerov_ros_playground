@@ -185,6 +185,7 @@ install(FILES
   launch/mav_pluginlists.yaml
   launch/user_mav.launch
   launch/video.launch
+  launch/bluerov2_node.launch
   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/launch
 )
 

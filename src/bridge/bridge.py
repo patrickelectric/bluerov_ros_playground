@@ -84,10 +84,10 @@ class Bridge():
     def set_attitude_target(self, param=[]):
         if len(param) != 8:
             print('SET_ATTITUDE_TARGET need 8 params')
-        mask = 0
+        mask = 0b11111111
         for i, value in enumerate(param[4:-1]):
             if value is not None:
-                mask += 1<<i
+                mask -= 1<<i
             else:
                 param[i+3] = 0.0
 

@@ -5,6 +5,7 @@ import math
 import re
 import rospy
 import sys
+import time
 
 from bridge import Bridge
 
@@ -105,7 +106,10 @@ class BlueRov(Bridge):
             ],
         ]
 
+        self.mavlink_msg_available = {}
+
         for _, topic, msg, queue in self.pub_topics:
+            self.mavlink_msg_available[topic] = 0
             self._pub_subscribe_topic(topic, msg, queue)
 
         for topic in self.sub_topics:
@@ -197,17 +201,11 @@ class BlueRov(Bridge):
 
     def _create_odometry_msg(self):
         # Check if data is available
-        fail = False
         if 'LOCAL_POSITION_NED' not in self.get_data():
-            print('no LOCAL_POSITION_NED data')
-            fail = True
+            raise Exception('no LOCAL_POSITION_NED data')
 
         if 'ATTITUDE' not in self.get_data():
-            print('no ATTITUDE data')
-            fail = True
-
-        if fail:
-            return
+            raise Exception('no ATTITUDE data')
 
         #TODO: Create class to deal with BlueRov state
         msg = Odometry()
@@ -251,8 +249,7 @@ class BlueRov(Bridge):
     def _create_imu_msg(self):
         # Check if data is available
         if 'ATTITUDE' not in self.get_data():
-            print('no ATTITUDE data')
-            return
+            raise Exception('no ATTITUDE data')
 
         #TODO: move all msgs creating to msg
         msg = Imu()
@@ -269,7 +266,7 @@ class BlueRov(Bridge):
                 pass
 
         if imu_data is None:
-            return
+            raise Exception('no SCALED_IMUX data')
 
         acc_data = [imu_data['{}acc'.format(i)]  for i in ['x', 'y', 'z']]
         gyr_data = [imu_data['{}gyro'.format(i)] for i in ['x', 'y', 'z']]
@@ -309,18 +306,11 @@ class BlueRov(Bridge):
 
     def _create_battery_msg(self):
         # Check if data is available
-        fail = False
-
         if 'SYS_STATUS' not in self.get_data():
-            print('no SYS_STATUS data')
-            fail = True
+            raise Exception('no SYS_STATUS data')
 
         if 'BATTERY_STATUS' not in self.get_data():
-            print('no BATTERY_STATUS data')
-            fail = True
-
-        if fail:
-            return
+            raise Exception('no BATTERY_STATUS data')
 
         bat = BatteryState()
         self._create_header(bat)
@@ -350,8 +340,7 @@ class BlueRov(Bridge):
     def _create_ROV_state(self):
         # Check if data is available
         if 'SERVO_OUTPUT_RAW' not in self.get_data():
-            print('no SERVO_OUTPUT_RAW data')
-            return
+            raise Exception('no SERVO_OUTPUT_RAW data')
 
         servo_output_raw_msg = self.get_data()['SERVO_OUTPUT_RAW']
         servo_output_raw = [servo_output_raw_msg['servo{}_raw'.format(i+1)] for i in range(8)]
@@ -385,11 +374,13 @@ class BlueRov(Bridge):
 
     def publish(self):
         self.update()
-        for sender, _, _, _ in self.pub_topics:
+        for sender, topic, _, _ in self.pub_topics:
             try:
-                sender()
+                if time.time() - self.mavlink_msg_available[topic] > 1:
+                    sender()
             except Exception as e:
-                print('Error on line {}'.format(sys.exc_info()[-1].tb_lineno), type(e).__name__, e)
+                self.mavlink_msg_available[topic] = time.time()
+                print(e)
 
 if __name__ == '__main__':
     try:

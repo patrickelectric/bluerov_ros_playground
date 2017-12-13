@@ -42,6 +42,10 @@ What is possible ?
 
 ## Running ##
 
+- BlueRov2 node
+
+    For more information check [here](src/bridge/README.md).
+
 - Launch user example
 
     This example will start user example, reading data from mavlink, interacting with joystick over rc commands and showing ROV video stream.

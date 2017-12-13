@@ -39,6 +39,30 @@ class Bridge():
         mode_id = self.conn.mode_mapping()[mode]
         self.conn.set_mode(mode_id)
 
+    def decode_mode(self, base_mode, custom_mode):
+        flight_mode = ""
+
+        mode_list = [
+            [mavutil.mavlink.MAV_MODE_FLAG_MANUAL_INPUT_ENABLED, 'MANUAL'],
+            [mavutil.mavlink.MAV_MODE_FLAG_STABILIZE_ENABLED, 'STABILIZE'],
+            [mavutil.mavlink.MAV_MODE_FLAG_GUIDED_ENABLED, 'GUIDED'],
+            [mavutil.mavlink.MAV_MODE_FLAG_AUTO_ENABLED, 'AUTO'],
+            [mavutil.mavlink.MAV_MODE_FLAG_TEST_ENABLED, 'TEST']
+        ]
+
+        if base_mode == 0:
+            flight_mode = "PreFlight"
+        elif base_mode & mavutil.mavlink.MAV_MODE_FLAG_CUSTOM_MODE_ENABLED:
+            flight_mode = mavutil.mode_mapping_sub[custom_mode]
+        else:
+            for mode_value, mode_name in mode_list:
+                if base_mode & mode_value:
+                    flight_mode = mode_name
+
+        arm = bool(base_mode & mavutil.mavlink.MAV_MODE_FLAG_SAFETY_ARMED)
+
+        return flight_mode, arm
+
     def set_guided_mode(self):
         #https://github.com/ArduPilot/pymavlink/pull/128
         params = [mavutil.mavlink.MAV_MODE_GUIDED, 0, 0, 0, 0, 0, 0]

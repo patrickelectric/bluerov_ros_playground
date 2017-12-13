@@ -32,7 +32,7 @@ from std_msgs.msg import String
 from std_msgs.msg import UInt16
 
 class BlueRov(Bridge):
-    def __init__(self, device='udp:192.168.2.1:14550', baudrate=None):
+    def __init__(self, device='udp:192.168.2.1:14550', baudrate=115200):
         super().__init__(device, baudrate)
         self.pub = Pubs()
         self.sub = Subs()

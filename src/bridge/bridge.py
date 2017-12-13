@@ -3,7 +3,7 @@
 from pymavlink import mavutil
 
 class Bridge():
-    def __init__(self, device='udp:192.168.2.1:14550', baudrate=None):
+    def __init__(self, device='udp:192.168.2.1:14550', baudrate=115200):
         self.conn = mavutil.mavlink_connection(device, baud=baudrate)
         self.data = {}
 

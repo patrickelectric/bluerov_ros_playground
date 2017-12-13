@@ -51,7 +51,7 @@ class BlueRov(Bridge):
             ],
             [
                 self._create_battery_msg,
-                '/camera',
+                '/camera/image_raw',
                 Image,
                 1
             ],
@@ -339,7 +339,7 @@ class BlueRov(Bridge):
         msg = self.video_bridge.cv2_to_imgmsg(frame, "bgr8")
         self._create_header(msg)
         msg.step = int(msg.step)
-        self.pub.set_data('/camera', msg)
+        self.pub.set_data('/camera/image_raw', msg)
 
     def _create_ROV_state(self):
         # Check if data is available

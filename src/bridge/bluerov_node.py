@@ -346,6 +346,9 @@ class BlueRov(Bridge):
         if 'SERVO_OUTPUT_RAW' not in self.get_data():
             raise Exception('no SERVO_OUTPUT_RAW data')
 
+        if 'HEARTBEAT' not in self.get_data():
+            raise Exception('no HEARTBEAT data')
+
         servo_output_raw_msg = self.get_data()['SERVO_OUTPUT_RAW']
         servo_output_raw = [servo_output_raw_msg['servo{}_raw'.format(i+1)] for i in range(8)]
         motor_throttle = [servo_output_raw[i] - 1500 for i in range(6)]
@@ -365,10 +368,17 @@ class BlueRov(Bridge):
         else:
             camera_angle = 45*camera_angle/500
 
+        base_mode = self.get_data()['HEARTBEAT']['base_mode']
+        custom_mode = self.get_data()['HEARTBEAT']['custom_mode']
+
+        mode, arm = self.decode_mode(base_mode, custom_mode)
+
         state = {
             'motor': motor_throttle,
             'light': light_on,
-            'camera_angle': camera_angle
+            'camera_angle': camera_angle,
+            'mode': mode,
+            'arm': arm
         }
 
         string = String()

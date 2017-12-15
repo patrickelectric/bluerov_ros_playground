@@ -2,7 +2,7 @@
 
 from pymavlink import mavutil
 
-class Bridge():
+class Bridge(object):
     def __init__(self, device='udp:192.168.2.1:14550', baudrate=115200):
         self.conn = mavutil.mavlink_connection(device, baud=baudrate)
         self.data = {}
@@ -27,7 +27,7 @@ class Bridge():
         for msg in msgs:
             self.data[msg.get_type()] = msg.to_dict()
 
-    def print(self):
+    def print_data(self):
         print(self.data)
 
     def set_mode(self, mode):
@@ -169,4 +169,4 @@ if __name__ == '__main__':
     #bridge = Bridge(device='udp:localhost:14550')
     while True:
         bridge.update()
-        bridge.print()
+        bridge.print_data()

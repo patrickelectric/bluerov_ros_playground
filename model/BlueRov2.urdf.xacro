@@ -152,7 +152,7 @@
       <camera name="head">
       <!-- https://elinux.com/Rpi_Camera_Module  -->
         <horizontal_fov>1.0855</horizontal_fov>
-        <vertical_fov>0.85169</vertical_fov>
+        <!-- vertical_fov>0.85169</vertical_fov -->
         <image>
           <width>1920</width>
           <height>1080</height>

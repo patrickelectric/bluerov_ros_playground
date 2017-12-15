@@ -33,7 +33,7 @@ from std_msgs.msg import UInt16
 
 class BlueRov(Bridge):
     def __init__(self, device='udp:192.168.2.1:14550', baudrate=115200):
-        super().__init__(device, baudrate)
+        super(BlueRov, self).__init__(device, baudrate)
         self.pub = Pubs()
         self.sub = Subs()
         self.ROV_name = 'BlueRov2'
@@ -280,12 +280,12 @@ class BlueRov(Bridge):
         msg.linear_acceleration.x = acc_data[0]/100
         msg.linear_acceleration.y = acc_data[1]/100
         msg.linear_acceleration.z = acc_data[2]/100
-        msg.linear_acceleration_covariance : [0, 0, 0, 0, 0, 0, 0, 0, 0]
+        msg.linear_acceleration_covariance = [0, 0, 0, 0, 0, 0, 0, 0, 0]
 
         msg.angular_velocity.x = gyr_data[0]/1000
         msg.angular_velocity.y = gyr_data[1]/1000
         msg.angular_velocity.z = gyr_data[2]/1000
-        msg.angular_velocity_covariance : [0, 0, 0, 0, 0, 0, 0, 0, 0]
+        msg.angular_velocity_covariance = [0, 0, 0, 0, 0, 0, 0, 0, 0]
 
         #http://mavlink.org/messages/common#ATTITUDE
         attitude_data = self.get_data()['ATTITUDE']
@@ -304,7 +304,7 @@ class BlueRov(Bridge):
         msg.orientation.y = cy * cr * sp + sy * sr * cp
         msg.orientation.z = sy * cr * cp - cy * sr * sp
 
-        msg.orientation_covariance : [0, 0, 0, 0, 0, 0, 0, 0, 0]
+        msg.orientation_covariance = [0, 0, 0, 0, 0, 0, 0, 0, 0]
 
         self.pub.set_data('/imu/data', msg)
 

@@ -33,6 +33,12 @@ from std_msgs.msg import UInt16
 
 class BlueRov(Bridge):
     def __init__(self, device='udp:192.168.2.1:14550', baudrate=115200):
+        """ BlueRov ROS Bridge
+
+        Args:
+            device (str, optional): mavproxy device description
+            baudrate (int, optional): Serial baudrate
+        """
         super(BlueRov, self).__init__(device, baudrate)
         self.pub = Pubs()
         self.sub = Subs()
@@ -127,15 +133,47 @@ class BlueRov(Bridge):
 
     @staticmethod
     def _callback_from_topic(topic):
+        """ Create callback function name
+
+        Args:
+            topic (str): Topic name
+
+        Returns:
+            str: callback name
+        """
         return topic.replace('/', '_') + '_callback'
 
     def _pub_subscribe_topic(self, topic, msg, queue_size=1):
+        """ Subscribe to a topic using the publisher
+
+        Args:
+            topic (str): Topic name
+            msg (TYPE): ROS message type
+            queue_size (int, optional): Queue size
+        """
         self.pub.subscribe_topic(self.ROV_name + topic, msg, queue_size)
 
     def _sub_subscribe_topic(self, topic, msg, queue_size=1, callback=None):
+        """ Subscribe to a topic using the subscriber
+
+        Args:
+            topic (str): Topic name
+            msg (TYPE): ROS message type
+            queue_size (int, optional): Queue size
+            callback (None, optional): Callback function
+        """
         self.sub.subscribe_topic(self.ROV_name + topic, msg, queue_size, callback)
 
     def _set_servo_callback(self, msg, topic):
+        """ Set servo from topic
+
+        Args:
+            msg (TYPE): ROS message
+            topic (TYPE): Topic name
+
+        Returns:
+            None: Description
+        """
         paths = topic.split('/')
         servo_id = None
         for path in paths:
@@ -150,6 +188,15 @@ class BlueRov(Bridge):
         self.set_servo_pwm(servo_id, msg.data)
 
     def _set_rc_channel_callback(self, msg, topic):
+        """ Set RC channel from topic
+
+        Args:
+            msg (TYPE): ROS message
+            topic (TYPE): Topic name
+
+        Returns:
+            TYPE: Description
+        """
         paths = topic.split('/')
         channel_id = None
         for path in paths:
@@ -164,12 +211,30 @@ class BlueRov(Bridge):
         self.set_rc_channel_pwm(channel_id, msg.data)
 
     def _set_mode_callback(self, msg, _):
+        """ Set ROV mode from topic
+
+        Args:
+            msg (TYPE): Topic message
+            _ (TYPE): Description
+        """
         self.set_mode(msg.data)
 
     def _arm_callback(self, msg, _):
+        """ Set arm state from topic
+
+        Args:
+            msg (TYPE): ROS message
+            _ (TYPE): Description
+        """
         self.arm_throttle(msg.data)
 
     def _setpoint_velocity_cmd_vel_callback(self, msg, _):
+        """ Set angular and linear velocity from topic
+
+        Args:
+            msg (TYPE): ROS message
+            _ (TYPE): Description
+        """
         #http://mavlink.org/messages/common#SET_POSITION_TARGET_GLOBAL_INT
         params = [
             None,
@@ -200,10 +265,21 @@ class BlueRov(Bridge):
         self.set_attitude_target(params)
 
     def _create_header(self, msg):
+        """ Create ROS message header
+
+        Args:
+            msg (ROS message): ROS message with header
+        """
         msg.header.stamp = rospy.Time.now()
         msg.header.frame_id = self.model_base_link
 
     def _create_odometry_msg(self):
+        """ Create odometry message from ROV information
+
+        Raises:
+            Exception: No data to create the message
+        """
+
         # Check if data is available
         if 'LOCAL_POSITION_NED' not in self.get_data():
             raise Exception('no LOCAL_POSITION_NED data')
@@ -251,6 +327,12 @@ class BlueRov(Bridge):
         self.pub.set_data('/odometry', msg)
 
     def _create_imu_msg(self):
+        """ Create imu message from ROV data
+
+        Raises:
+            Exception: No data available
+        """
+
         # Check if data is available
         if 'ATTITUDE' not in self.get_data():
             raise Exception('no ATTITUDE data')
@@ -309,6 +391,12 @@ class BlueRov(Bridge):
         self.pub.set_data('/imu/data', msg)
 
     def _create_battery_msg(self):
+        """ Create battery message from ROV data
+
+        Raises:
+            Exception: No data available
+        """
+
         # Check if data is available
         if 'SYS_STATUS' not in self.get_data():
             raise Exception('no SYS_STATUS data')
@@ -342,6 +430,12 @@ class BlueRov(Bridge):
         self.pub.set_data('/camera/image_raw', msg)
 
     def _create_ROV_state(self):
+        """ Create ROV state message from ROV data
+
+        Raises:
+            Exception: No data available
+        """
+
         # Check if data is available
         if 'SERVO_OUTPUT_RAW' not in self.get_data():
             raise Exception('no SERVO_OUTPUT_RAW data')
@@ -387,6 +481,8 @@ class BlueRov(Bridge):
         self.pub.set_data('/state', string)
 
     def publish(self):
+        """ Publish the data in ROS topics
+        """
         self.update()
         for sender, topic, _, _ in self.pub_topics:
             try:

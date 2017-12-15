@@ -26,7 +26,7 @@
     </group>
 
     <!-- spawn terrain -->
-    <param name="terrain_description" command="$(find xacro)/xacro $(find freefloating_gazebo_demo)/terrain/shipwreck/terrain.sdf"/>
+    <param name="terrain_description" command="$(find xacro)/xacro --inorder $(find freefloating_gazebo_demo)/terrain/shipwreck/terrain.sdf"/>
     <node name="terrain_spawner" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen" args="-sdf -model terrain -param terrain_description -x 0 -y 0 -z 0 -R 0 -P 0 -Y 0"/>
 
     <node pkg="mavros" type="mavros_node" name="mavros" required="true" clear_params="true" output="$(arg log_output)">

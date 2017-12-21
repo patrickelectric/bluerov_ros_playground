@@ -14,22 +14,6 @@
           <izz>1</izz>
         </inertia>
       </inertial>
-      <!--collision name='base_link_collision'>
-        <pose>0 0 -0.08 0 0 0</pose>
-        <geometry>
-          <box>
-            <size>0.457 0.338 0.254</size>
-          </box>
-        </geometry>
-        <surface>
-          <contact>
-            <ode>
-              <max_vel>100.0</max_vel>
-              <min_depth>0.001</min_depth>
-            </ode>
-          </contact>
-        </surface>
-      </collision-->
       <visual name='base_link_visual'>
         <geometry>
           <mesh>
@@ -39,187 +23,323 @@
         </geometry>
       </visual>
       <sensor name="imu_sensor" type="imu">
-        <pose>0 0 0 3.141593 0 -0.785375</pose>
-        <always_on>1</always_on>
-        <update_rate>1000.0</update_rate>
-      </sensor>
-    </link>
-    <!--link name='odometry_sensorgt_link'>
-      <pose>0 0 0 0 0 0</pose>
-      <inertial>
-        <pose>0 0 0 0 0 0</pose>
-        <mass>0.15</mass>
-        <inertia>
-          <ixx>0.0001</ixx>
-          <ixy>0</ixy>
-          <ixz>0</ixz>
-          <iyy>0.0002</iyy>
-          <iyz>0</iyz>
-          <izz>0.0002</izz>
-        </inertia>
-      </inertial>
-    </link-->
-    <!--joint name='odometry_sensorgt_joint' type='revolute'>
-      <child>odometry_sensorgt_link</child>
-      <parent>base_link</parent>
-      <axis>
-        <xyz>0 0 1</xyz>
-        <limit>
-          <lower>0</lower>
-          <upper>0</upper>
-          <effort>0</effort>
-          <velocity>0</velocity>
-        </limit>
-        <dynamics>
-          <damping>1.0</damping>
-        </dynamics>
-        <use_parent_model_frame>1</use_parent_model_frame>
-      </axis>
-      <physics>
-        <ode>
-          <implicit_spring_damper>1</implicit_spring_damper>
-        </ode>
-      </physics>
-    </joint-->
-    <!--
-    <link name='imu_link'>
-      <inertial>
-        <pose>0 0 0 0 0 0</pose>
-        <mass>0.15</mass>
-        <inertia>
-          <ixx>0.00001</ixx>
-          <ixy>0</ixy>
-          <ixz>0</ixz>
-          <iyy>0.00002</iyy>
-          <iyz>0</iyz>
-          <izz>0.00002</izz>
-        </inertia>
-      </inertial>
-      <sensor name="imu_sensor" type="imu">
         <pose>0 0 0 0 0 0</pose>
         <always_on>1</always_on>
         <update_rate>1000.0</update_rate>
       </sensor>
-    </link-->
-    <!--joint name='imu_joint' type='revolute'>
-      <child>imu_link</child>
-      <parent>base_link</parent>
-      <axis>
-        <xyz>0 0 1</xyz>
-        <limit>
-          <lower>0</lower>
-          <upper>0</upper>
-          <effort>0</effort>
-          <velocity>0</velocity>
-        </limit>
-        <dynamics>
-          <damping>1.0</damping>
-        </dynamics>
-        <use_parent_model_frame>1</use_parent_model_frame>
-      </axis>
-      <physics>
-        <ode>
-          <implicit_spring_damper>1</implicit_spring_damper>
-        </ode>
-      </physics>
-    </joint-->
+    </link>
 
-  <!--
-    <link name='propeller'>
-      <pose>0 0 0.3455 3.14159 0 0</pose>
+    <link name='thruster1'>
+      <pose>0.12 -0.11 0 1.5707963 1.5707963 -0.78539815</pose>
+      <!--visual name="cil">
+          <geometry>
+            <cylinder>
+              <radius>.03</radius>
+              <length>1</length>
+            </cylinder>
+          </geometry>
+      </visual-->
       <inertial>
-        <mass>8.410409900000001</mass>
+        <mass>1e-10</mass>
         <inertia>
-          <ixx>0.17730244606378792</ixx>
+          <ixx>1</ixx>
           <ixy>0</ixy>
           <ixz>0</ixz>
-          <iyy>0.17730244606378792</iyy>
+          <iyy>1</iyy>
           <iyz>0</iyz>
-          <izz>0.35043374583333337</izz>
+          <izz>1</izz>
         </inertia>
       </inertial>
     </link>
-
-      <joint name='spinning_joint' type='revolute'>
+    <joint name='thruster1_joint' type='fixed'>
       <parent>base_link</parent>
-      <child>propeller</child>
+      <child>thruster1</child>
+    </joint>
+
+    <link name='thruster2'>
+      <pose>0.12 0.11 0 1.5707963 1.5707963 3.92699075</pose>
+      <!--visual name="cil1">
+        <geometry>
+          <cylinder>
+            <radius>.03</radius>
+            <length>1</length>
+          </cylinder>
+        </geometry>
+      </visual-->
+      <inertial>
+        <mass>1e-10</mass>
+        <inertia>
+          <ixx>1</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>1</iyy>
+          <iyz>0</iyz>
+          <izz>1</izz>
+        </inertia>
+      </inertial>
+    </link>
+    <joint name='thruster2_joint' type='fixed'>
+      <parent>base_link</parent>
+      <child>thruster2</child>
       <axis>
         <xyz>0 0 1</xyz>
         <use_parent_model_frame>1</use_parent_model_frame>
-        <limit>
-          <lower>-1e+12</lower>
-          <upper>1e+12</upper>
-          <effort>-1</effort>
-          <velocity>-1</velocity>
-        </limit>
+      </axis>
+    </joint>
+
+    <link name='thruster3'>
+      <pose>-0.12 -0.11 0 1.5707963 1.5707963 0.78540075</pose>
+      <!--visual name="cil2">
+          <geometry>
+            <cylinder>
+              <radius>.03</radius>
+              <length>1</length>
+            </cylinder>
+          </geometry>
+      </visual-->
+      <inertial>
+        <mass>1e-10</mass>
+        <inertia>
+          <ixx>1</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>1</iyy>
+          <iyz>0</iyz>
+          <izz>1</izz>
+        </inertia>
+      </inertial>
+    </link>
+    <joint name='thruster3_joint' type='fixed'>
+      <parent>base_link</parent>
+      <child>thruster3</child>
+      <axis>
+        <xyz>0 0 1</xyz>
+        <use_parent_model_frame>1</use_parent_model_frame>
+      </axis>
+    </joint>
+
+    <link name='thruster4'>
+      <pose>-0.12 0.11 0 1.5707963 1.5707963 2.35619445</pose>
+      <!--visual name="cil3">
+          <geometry>
+            <cylinder>
+              <radius>.03</radius>
+              <length>1</length>
+            </cylinder>
+          </geometry>
+      </visual-->
+      <inertial>
+        <mass>1e-10</mass>
+        <inertia>
+          <ixx>1</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>1</iyy>
+          <iyz>0</iyz>
+          <izz>1</izz>
+        </inertia>
+      </inertial>
+    </link>
+    <joint name='thruster4_joint' type='fixed'>
+      <parent>base_link</parent>
+      <child>thruster4</child>
+      <axis>
+        <xyz>0 0 -1</xyz>
+        <use_parent_model_frame>1</use_parent_model_frame>
+      </axis>
+    </joint>
+
+    <link name='thruster5'>
+      <pose>0 -0.11 0 3.1415926 0 0</pose>
+      <!--visual name="cil4">
+          <geometry>
+            <cylinder>
+              <radius>.03</radius>
+              <length>1</length>
+            </cylinder>
+          </geometry>
+      </visual-->
+      <inertial>
+        <mass>1e-10</mass>
+        <inertia>
+          <ixx>1</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>1</iyy>
+          <iyz>0</iyz>
+          <izz>1</izz>
+        </inertia>
+      </inertial>
+    </link>
+    <joint name='thruster5_joint' type='fixed'>
+      <parent>base_link</parent>
+      <child>thruster5</child>
+      <axis>
+        <xyz>0 -1 0</xyz>
+        <use_parent_model_frame>1</use_parent_model_frame>
+      </axis>
+    </joint>
+
+    <link name='thruster6'>
+      <pose>0 0.11 0 3.1415926 0 0</pose>
+      <!--visual name="cil5">
+          <geometry>
+            <cylinder>
+              <radius>.03</radius>
+              <length>1</length>
+            </cylinder>
+          </geometry>
+      </visual-->
+      <inertial>
+        <mass>1e-10</mass>
+        <inertia>
+          <ixx>1</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>1</iyy>
+          <iyz>0</iyz>
+          <izz>1</izz>
+        </inertia>
+      </inertial>
+    </link>
+    <joint name='thruster6_joint' type='fixed'>
+      <parent>base_link</parent>
+      <child>thruster6</child>
+      <axis>
+        <xyz>0 1 0</xyz>
+        <use_parent_model_frame>1</use_parent_model_frame>
       </axis>
     </joint>
 
     <allow_auto_disable>1</allow_auto_disable>
-  -->
-  <!--
-    <link name='BlueRov/imugt_link'>
-      <pose>0 0 0 0 -0 0</pose>
-      <inertial>
-        <pose>0 0 0 0 -0 0</pose>
-        <mass>1e-02</mass>
-        <inertia>
-          <ixx>0.0002</ixx>
-          <ixy>0</ixy>
-          <ixz>0</ixz>
-          <iyy>0.0002</iyy>
-          <iyz>0</iyz>
-          <izz>0.0002</izz>
-        </inertia>
-      </inertial>
-    </link>
-    <joint name='BlueRov/imugt_joint' type='revolute'>
-      <child>BlueRov/imugt_link</child>
-      <parent>base_link</parent>
-      <axis>
-        <xyz>0 0 1</xyz>
-        <limit>
-          <lower>0</lower>
-          <upper>0</upper>
-          <effort>0</effort>
-          <velocity>0</velocity>
-        </limit>
-        <dynamics>
-          <spring_reference>0</spring_reference>
-          <spring_stiffness>0</spring_stiffness>
-        </dynamics>
-        <use_parent_model_frame>1</use_parent_model_frame>
-      </axis>
-    </joint>
-  -->
-  <allow_auto_disable>1</allow_auto_disable>
 
-  <!-- mass*1.00/fluid_density = volume -->
-  <plugin name="BuoyancyPlugin" filename="libBuoyancyPlugin.so">
-    <fluid_density>1000</fluid_density>
-     <link name="base_link">
-      <center_of_volume>0 0 0</center_of_volume>
-      <volume>0.0110001</volume>
-    </link>
-  </plugin>
+    <plugin name="ArduPilotPlugin" filename="libArduPilotPlugin.so">
+      <fdm_addr>127.0.0.1</fdm_addr>
+      <fdm_port_in>9002</fdm_port_in>
+      <fdm_port_out>9003</fdm_port_out>-->
+      <imuName>BlueRov2::base_link::imu_sensor</imuName>
+      <connectionTimeoutMaxCount>5</connectionTimeoutMaxCount>
 
-  <!--
-  <plugin name="ArduCopterPlugin" filename="libArduCopterPlugin.so">-->
-  <plugin name="ArduPilotPlugin" filename="libArduPilotPlugin.so">
-    <fdm_addr>127.0.0.1</fdm_addr>
-    <fdm_port_in>9002</fdm_port_in>
-    <fdm_port_out>9003</fdm_port_out>-->
-    <!--
-        Require by APM :
-        Only change model and gazebo from XYZ to XY-Z coordinates
-    -->
-    <!--
-    <modelXYZToAirplaneXForwardZDown>0 0 0 1 1 1</modelXYZToAirplaneXForwardZDown>
-    <gazeboXYZToNED>0 0 0 0.1 0.1 0.1</gazeboXYZToNED-->
-    <imuName>BlueRov2::base_link::imu_sensor</imuName>
-    <!--imuName>imu_link::imu_sensor</imuName-->
-    <connectionTimeoutMaxCount>5</connectionTimeoutMaxCount>
-  </plugin>
+      <!--
+        incoming control command [0, 1]
+        so offset it by -0.5 to get [-0.5, 0.5].
+        multiplier = 102
+        Positive thrust = 51
+        Negative thrust = -41
+      -->
+        <control channel="0">
+          <type>VELOCITY</type>
+          <offset>-0.5</offset>
+          <p_gain>1</p_gain>
+          <i_gain>0</i_gain>
+          <d_gain>0</d_gain>
+          <i_max>0</i_max>
+          <i_min>0</i_min>
+          <torque>0</torque>
+          <cmd_max>51</cmd_max>
+          <cmd_min>-40</cmd_min>
+          <jointName>BlueRov2::thruster1_joint</jointName>
+          <linkName>BlueRov2::thruster1</linkName>
+          <multiplier>102</multiplier>
+        </control>
 
+        <control channel="1">
+          <type>VELOCITY</type>
+          <offset>-0.5</offset>
+          <p_gain>1</p_gain>
+          <i_gain>0</i_gain>
+          <d_gain>0</d_gain>
+          <i_max>0</i_max>
+          <i_min>0</i_min>
+          <torque>1</torque>
+          <cmd_max>51</cmd_max>
+          <cmd_min>-40</cmd_min>
+          <jointName>BlueRov2::thruster2_joint</jointName>
+          <linkName>BlueRov2::thruster2</linkName>
+          <multiplier>102</multiplier>
+        </control>
+
+        <control channel="2">
+          <type>VELOCITY</type>
+          <offset>-0.5</offset>
+          <p_gain>1</p_gain>
+          <i_gain>0</i_gain>
+          <d_gain>0</d_gain>
+          <i_max>0</i_max>
+          <i_min>0</i_min>
+          <cmd_max>51</cmd_max>
+          <cmd_min>-40</cmd_min>
+          <jointName>BlueRov2::thruster3_joint</jointName>
+          <linkName>BlueRov2::thruster3</linkName>
+          <multiplier>102</multiplier>
+        </control>
+
+        <control channel="3">
+          <type>VELOCITY</type>
+          <offset>-0.5</offset>
+          <p_gain>1</p_gain>
+          <i_gain>0</i_gain>
+          <d_gain>0</d_gain>
+          <i_max>0</i_max>
+          <i_min>0</i_min>
+          <cmd_max>51</cmd_max>
+          <cmd_min>-40</cmd_min>
+          <jointName>BlueRov2::thruster4_joint</jointName>
+          <linkName>BlueRov2::thruster4</linkName>
+          <multiplier>102</multiplier>
+        </control>
+
+
+        <control channel="4">
+          <type>VELOCITY</type>
+          <offset>-0.5</offset>
+          <p_gain>1</p_gain>
+          <i_gain>0</i_gain>
+          <d_gain>0</d_gain>
+          <i_max>0</i_max>
+          <i_min>0</i_min>
+          <cmd_max>51</cmd_max>
+          <cmd_min>-40</cmd_min>
+          <jointName>BlueRov2::thruster5_joint</jointName>
+          <linkName>BlueRov2::thruster5</linkName>
+          <multiplier>102</multiplier>
+
+        </control>
+
+        <control channel="5">
+          <type>VELOCITY</type>
+          <offset>-0.5</offset>
+          <p_gain>1</p_gain>
+          <i_gain>0</i_gain>
+          <d_gain>0</d_gain>
+          <i_max>0</i_max>
+          <i_min>0</i_min>
+          <cmd_max>51</cmd_max>
+          <cmd_min>-40</cmd_min>
+          <jointName>BlueRov2::thruster6_joint</jointName>
+          <linkName>BlueRov2::thruster6</linkName>
+          <multiplier>102</multiplier>
+        </control>
+
+
+      <link name="base_link">
+        <buoyancy>
+          <compensation>0.2525</compensation>
+          <origin xyz= "0.12585 0.111 0.1789"/>
+        </buoyancy>
+        <buoyancy>
+          <compensation>0.2525</compensation>
+          <origin xyz= "-0.12585 0.111 0.1789"/>
+        </buoyancy>
+        <buoyancy>
+          <compensation>0.2525</compensation>
+          <origin xyz= "-0.12585 -0.111 0.1789"/>
+        </buoyancy>
+        <buoyancy>
+          <compensation>0.2525</compensation>
+          <origin xyz= "0.12585 -0.111 0.1789"/>
+        </buoyancy>
+      </link>
+    </plugin>
   </model>
 </sdf>

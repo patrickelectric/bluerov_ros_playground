@@ -228,39 +228,35 @@
         Negative thrust = -41
       -->
         <control channel="0">
-          <type>VELOCITY</type>
+          <type>EFFORT</type>
           <offset>-0.5</offset>
           <p_gain>1</p_gain>
           <i_gain>0</i_gain>
           <d_gain>0</d_gain>
           <i_max>0</i_max>
           <i_min>0</i_min>
-          <torque>0</torque>
           <cmd_max>51</cmd_max>
           <cmd_min>-40</cmd_min>
-          <jointName>BlueRov2::thruster1_joint</jointName>
           <linkName>BlueRov2::thruster1</linkName>
           <multiplier>102</multiplier>
         </control>
 
         <control channel="1">
-          <type>VELOCITY</type>
+          <type>EFFORT</type>
           <offset>-0.5</offset>
           <p_gain>1</p_gain>
           <i_gain>0</i_gain>
           <d_gain>0</d_gain>
           <i_max>0</i_max>
           <i_min>0</i_min>
-          <torque>1</torque>
           <cmd_max>51</cmd_max>
           <cmd_min>-40</cmd_min>
-          <jointName>BlueRov2::thruster2_joint</jointName>
           <linkName>BlueRov2::thruster2</linkName>
           <multiplier>102</multiplier>
         </control>
 
         <control channel="2">
-          <type>VELOCITY</type>
+          <type>EFFORT</type>
           <offset>-0.5</offset>
           <p_gain>1</p_gain>
           <i_gain>0</i_gain>
@@ -269,13 +265,12 @@
           <i_min>0</i_min>
           <cmd_max>51</cmd_max>
           <cmd_min>-40</cmd_min>
-          <jointName>BlueRov2::thruster3_joint</jointName>
           <linkName>BlueRov2::thruster3</linkName>
           <multiplier>102</multiplier>
         </control>
 
         <control channel="3">
-          <type>VELOCITY</type>
+          <type>EFFORT</type>
           <offset>-0.5</offset>
           <p_gain>1</p_gain>
           <i_gain>0</i_gain>
@@ -284,14 +279,13 @@
           <i_min>0</i_min>
           <cmd_max>51</cmd_max>
           <cmd_min>-40</cmd_min>
-          <jointName>BlueRov2::thruster4_joint</jointName>
           <linkName>BlueRov2::thruster4</linkName>
           <multiplier>102</multiplier>
         </control>
 
 
         <control channel="4">
-          <type>VELOCITY</type>
+          <type>EFFORT</type>
           <offset>-0.5</offset>
           <p_gain>1</p_gain>
           <i_gain>0</i_gain>
@@ -300,14 +294,13 @@
           <i_min>0</i_min>
           <cmd_max>51</cmd_max>
           <cmd_min>-40</cmd_min>
-          <jointName>BlueRov2::thruster5_joint</jointName>
           <linkName>BlueRov2::thruster5</linkName>
           <multiplier>102</multiplier>
 
         </control>
 
         <control channel="5">
-          <type>VELOCITY</type>
+          <type>EFFORT</type>
           <offset>-0.5</offset>
           <p_gain>1</p_gain>
           <i_gain>0</i_gain>
@@ -316,11 +309,18 @@
           <i_min>0</i_min>
           <cmd_max>51</cmd_max>
           <cmd_min>-40</cmd_min>
-          <jointName>BlueRov2::thruster6_joint</jointName>
           <linkName>BlueRov2::thruster6</linkName>
           <multiplier>102</multiplier>
         </control>
+    </plugin>
 
+    <!-- buoyancy plugin -->
+    <plugin name="freebuoyancy_gazebo" filename="libfreebuoyancy_gazebo.so">
+      <descriptionParam>robot_description</descriptionParam>
+      <fluidTopic>current</fluidTopic>
+      <alwaysOn>true</alwaysOn>
+      <surface>0 0 0</surface>
+      <updateRate>.001</updateRate>
 
       <link name="base_link">
         <buoyancy>

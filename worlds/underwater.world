@@ -31,14 +31,6 @@
       </collision>
     </link>
   </model>
-  <!-- buoyancy plugin -->
-  <plugin name="freefloating_gazebo_fluid2" filename="libfreefloating_gazebo_fluid2.so">
-            <descriptionParam>robot_description</descriptionParam>
-            <fluidTopic>current</fluidTopic>
-            <alwaysOn>true</alwaysOn>
-            <surface>0 0 0</surface>
-            <updateRate>.001</updateRate>
-  </plugin>
   <include>
     <uri>model://BlueRov2</uri>
     <pose>0 0 0 0 0 0</pose>

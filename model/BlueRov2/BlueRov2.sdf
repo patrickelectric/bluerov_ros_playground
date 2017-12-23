@@ -312,8 +312,9 @@
           <linkName>BlueRov2::thruster6</linkName>
           <multiplier>102</multiplier>
         </control>
+    </plugin>
 
-
+    <plugin name="freebuoyancy_gazebo" filename="libfreebuoyancy_gazebo.so">
       <link name="base_link">
         <buoyancy>
           <compensation>0.2525</compensation>

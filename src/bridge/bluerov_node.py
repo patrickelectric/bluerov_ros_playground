@@ -459,10 +459,8 @@ class BlueRov(Bridge):
         #need to check
         camera_angle = servo_output_raw[7] - 1500
 
-        if camera_angle < 0:
-            camera_angle = 45*camera_angle/400
-        else:
-            camera_angle = 45*camera_angle/500
+        # Create angle from pwm
+        camera_angle = -45*camera_angle/400
 
         base_mode = self.get_data()['HEARTBEAT']['base_mode']
         custom_mode = self.get_data()['HEARTBEAT']['custom_mode']

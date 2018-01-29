@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 
+from __future__ import division
+
 import json
 import math
 import re

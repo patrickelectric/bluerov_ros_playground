@@ -52,13 +52,13 @@ class BlueRov(Bridge):
 
         self.pub_topics = [
             [
-                self._create_camera_msg,
+                self._create_battery_msg,
                 '/battery',
                 BatteryState,
                 1
             ],
             [
-                self._create_battery_msg,
+                self._create_camera_msg,
                 '/camera/image_raw',
                 Image,
                 1

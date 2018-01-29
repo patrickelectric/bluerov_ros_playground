@@ -455,7 +455,7 @@ class BlueRov(Bridge):
             else:
                 throttle = throttle/500
 
-        light_on = servo_output_raw[6] > 1500
+        light_on = (servo_output_raw[6] - 1100) / 8
         #need to check
         camera_angle = servo_output_raw[7] - 1500
 
